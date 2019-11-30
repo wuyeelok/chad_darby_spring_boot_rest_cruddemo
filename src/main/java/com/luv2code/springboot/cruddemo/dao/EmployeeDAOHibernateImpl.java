@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.luv2code.springboot.cruddemo.entity.Employee;
 
@@ -24,7 +23,6 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 	}
 
 	@Override
-	@Transactional
 	public List<Employee> findAll() {
 		// Get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -37,6 +35,42 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 
 		// Return the results
 		return employees;
+	}
+
+	@Override
+	public Employee findById(int theId) {
+
+		// Get the current hibernate session
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		// Get the employee
+		Employee theEmployee = currentSession.get(Employee.class, theId);
+
+		// Return the employee
+		return theEmployee;
+	}
+
+	@Override
+	public void save(Employee theEmployee) {
+		// Get the current hibernate session
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		// Save employee
+		currentSession.saveOrUpdate(theEmployee);
+	}
+
+	@Override
+	public void deleteById(int theId) {
+		// Get the current hibernate session
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		// Delete the employee by primary key
+		Query<?> theQuery = currentSession.createQuery("delete from Employee where id = :empolyeeId");
+
+		theQuery.setParameter("empolyeeId", theId);
+
+		theQuery.executeUpdate();
+
 	}
 
 }
