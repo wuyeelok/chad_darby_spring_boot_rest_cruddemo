@@ -3,6 +3,7 @@ package com.luv2code.springboot.cruddemo.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,19 +35,34 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
 
 	@Override
 	public Employee findById(int theId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		// Get employee
+		Employee theEmployee = this.entityManager.find(Employee.class, theId);
+
+		// Return employee
+		return theEmployee;
 	}
 
 	@Override
 	public void save(Employee theEmployee) {
-		// TODO Auto-generated method stub
+
+		// Save or Update the employee
+		Employee dbEmployee = this.entityManager.merge(theEmployee);
+
+		// Update with id from db ... so we can get generated id for save/update
+		theEmployee.setId(dbEmployee.getId());
 
 	}
 
 	@Override
 	public void deleteById(int theId) {
-		// TODO Auto-generated method stub
+
+		// Delete object with primary key
+		Query theQuery = this.entityManager.createQuery("delete from Employee where id=:employeeId");
+
+		theQuery.setParameter("employeeId", theId);
+
+		theQuery.executeUpdate();
 
 	}
 
