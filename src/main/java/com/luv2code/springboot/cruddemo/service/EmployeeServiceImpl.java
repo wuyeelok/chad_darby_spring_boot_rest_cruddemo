@@ -3,45 +3,40 @@ package com.luv2code.springboot.cruddemo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.luv2code.springboot.cruddemo.dao.EmployeeDAO;
+import com.luv2code.springboot.cruddemo.dao.EmployeeRepository;
 import com.luv2code.springboot.cruddemo.entity.Employee;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private final EmployeeDAO employeeDAO;
+	private final EmployeeRepository employeeRepository;
 
 	@Autowired
-	public EmployeeServiceImpl(@Qualifier("empDAOJpaImpl") EmployeeDAO employeeDAO) {
-		this.employeeDAO = employeeDAO;
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
 	}
 
 	@Override
-	@Transactional
 	public List<Employee> findAll() {
-		return this.employeeDAO.findAll();
+		return this.employeeRepository.findAll();
 	}
 
 	@Override
-	@Transactional
 	public Employee findById(int theId) {
-		return this.employeeDAO.findById(theId);
+		return this.employeeRepository.findById(theId).orElse(null);
 	}
 
 	@Override
-	@Transactional
 	public void save(Employee theEmployee) {
-		this.employeeDAO.save(theEmployee);
+		this.employeeRepository.save(theEmployee);
 	}
 
 	@Override
-	@Transactional
 	public void deleteById(int theId) {
-		this.employeeDAO.deleteById(theId);
+		this.employeeRepository.deleteById(theId);
 	}
 
 }
