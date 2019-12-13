@@ -4,6 +4,8 @@
 
 [Entry Link: Spring Boot cruddemo](https://www.udemy.com/course/spring-hibernate-tutorial/learn/lecture/12940900#overview)
 
+Start to follow: [Spring Data JPA One To Many Relationship Mapping Example](https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping)
+
 
 # How to start the project
 
