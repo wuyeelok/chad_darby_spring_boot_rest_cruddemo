@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Spring Data JPA One To Many Relationship Mapping Example</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf" content="f10c7303-fa98-4c42-9a8e-dcdc7d5b7c2e">
+    <meta name="_csrf_header" content="X-CSRF-TOKEN">
+    
+    <link rel="canonical" href="https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping">
+
+    
+    
+    
+        <style>*,:after,:before{box-sizing:border-box}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0)}article,figcaption,footer,header,main,nav,section{display:block}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,Helvetica,Roboto,Arial,sans-serif;font-size:1rem;font-weight:400;line-height:1.6;color:#212529;text-align:left;background-color:#fff}[tabindex="-1"]:focus{outline:0!important}hr{box-sizing:content-box;height:0;overflow:visible}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:1.15rem}p{margin-top:0;margin-bottom:2rem}address{font-style:normal;line-height:inherit}address,dl,ul{margin-bottom:1rem}dl,ul{margin-top:0}ul ul{margin-bottom:0}dt{font-weight:600}dd{margin-bottom:.5rem;margin-left:0}blockquote{margin:0 0 1rem}b,strong{font-weight:bolder}small{font-size:80%}sub{position:relative;font-size:75%;line-height:0;vertical-align:baseline;bottom:-.25em}a{color:rgba(0,0,255,.85);background-color:transparent}a,a:hover{text-decoration:none}a:hover{color:#00f}a:not([href]):not([tabindex]),a:not([href]):not([tabindex]):focus,a:not([href]):not([tabindex]):hover{color:inherit;text-decoration:none}a:not([href]):not([tabindex]):focus{outline:0}code,pre{font-family:SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}pre{margin-top:0;margin-bottom:1rem;overflow:auto}img{border-style:none}img,svg{vertical-align:middle}svg{overflow:hidden}table{border-collapse:collapse}caption{padding-top:.75rem;padding-bottom:.75rem;color:#adb5bd;text-align:left;caption-side:bottom}th{text-align:inherit}label{display:inline-block;margin-bottom:.5rem}button{border-radius:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}button,input,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button,input{overflow:visible}button,select{text-transform:none}select{word-wrap:normal}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{padding:0;border-style:none}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=date],input[type=datetime-local],input[type=month],input[type=time]{-webkit-appearance:listbox}textarea{overflow:auto;resize:vertical}legend{display:block;width:100%;max-width:100%;padding:0;margin-bottom:.5rem;font-size:1.5rem;line-height:inherit;color:inherit;white-space:normal}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{outline-offset:-2px;-webkit-appearance:none}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}[hidden]{display:none!important}.h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6{margin-bottom:1.15rem;font-family:inherit;font-weight:700;line-height:1.5;color:#000}.h1,h1{font-size:1.875rem}.h2,h2{font-size:1.625rem}.h3,h3{font-size:1.5rem}.h4,h4{font-size:1.25rem}.h5,h5{font-size:1.15rem}.h6,h6{font-size:1rem}.lead{font-size:1.25rem;font-weight:400}hr{margin-top:1rem;margin-bottom:1rem;border:0;border-top:2px solid #e9ecef}.small,small{font-size:80%;font-weight:400}.mark,mark{padding:.2em .25rem;background-color:#fbf9c9}.list-inline,.list-unstyled{padding-left:0;list-style:none}.list-inline-item{display:inline-block}.list-inline-item:not(:last-child){margin-right:.5rem}.blockquote{margin-bottom:1rem;font-size:1.2rem}.img-fluid{max-width:100%;height:auto}code{font-size:.875rem;color:#000;word-break:break-word}a>code{color:inherit}pre{display:block;font-size:.875rem;color:#212529}pre code{font-size:inherit;color:inherit;word-break:normal}.container{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}@media (min-width:576px){.container{max-width:540px}}@media (min-width:768px){.container{max-width:700px}}@media (min-width:992px){.container{max-width:780px}}@media (min-width:1200px){.container{max-width:850px}}.container-fluid{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}.row{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}.no-gutters{margin-right:0;margin-left:0}.no-gutters>.col,.no-gutters>[class*=col-]{padding-right:0;padding-left:0}.col,.col-3,.col-5,.col-6,.col-7,.col-9,.col-12,.col-auto,.col-lg-6,.col-md,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-10,.col-md-12,.col-md-auto,.col-sm-6,.col-sm-8,.col-sm-10,.col-sm-12{position:relative;width:100%;padding-right:15px;padding-left:15px}.col{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;flex-grow:1;max-width:100%}.col-auto{-ms-flex:0 0 auto;flex:0 0 auto;width:auto;max-width:100%}.col-3{-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}.col-5{-ms-flex:0 0 41.66666667%;flex:0 0 41.66666667%;max-width:41.66666667%}.col-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}.col-7{-ms-flex:0 0 58.33333333%;flex:0 0 58.33333333%;max-width:58.33333333%}.col-9{-ms-flex:0 0 75%;flex:0 0 75%;max-width:75%}.col-12{-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%}@media (min-width:576px){.col-sm-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}.col-sm-8{-ms-flex:0 0 66.66666667%;flex:0 0 66.66666667%;max-width:66.66666667%}.col-sm-10{-ms-flex:0 0 83.33333333%;flex:0 0 83.33333333%;max-width:83.33333333%}.col-sm-12{-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%}}@media (min-width:768px){.col-md{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;flex-grow:1;max-width:100%}.col-md-auto{-ms-flex:0 0 auto;flex:0 0 auto;width:auto;max-width:100%}.col-md-3{-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}.col-md-4{-ms-flex:0 0 33.33333333%;flex:0 0 33.33333333%;max-width:33.33333333%}.col-md-5{-ms-flex:0 0 41.66666667%;flex:0 0 41.66666667%;max-width:41.66666667%}.col-md-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}.col-md-7{-ms-flex:0 0 58.33333333%;flex:0 0 58.33333333%;max-width:58.33333333%}.col-md-8{-ms-flex:0 0 66.66666667%;flex:0 0 66.66666667%;max-width:66.66666667%}.col-md-9{-ms-flex:0 0 75%;flex:0 0 75%;max-width:75%}.col-md-10{-ms-flex:0 0 83.33333333%;flex:0 0 83.33333333%;max-width:83.33333333%}.col-md-12{-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%}}@media (min-width:992px){.col-lg-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}}.table{width:100%;margin-bottom:1rem;color:#212529;background-color:transparent}.table td,.table th{padding:.75rem;vertical-align:top;border-top:2px solid #f8f9fa}.table thead th{vertical-align:bottom;border-bottom:4px solid #f8f9fa}.table tbody+tbody{border-top:4px solid #f8f9fa}.form-control{display:block;width:100%;height:calc(2.6rem + 4px);padding:.5rem 1.125rem;font-size:1rem;font-weight:400;line-height:1.6;color:#495057;background-color:#fff;background-clip:padding-box;border:3px solid #e9ecef;border-radius:.25rem;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.form-control{transition:none}}.form-control::-ms-expand{background-color:transparent;border:0}.form-control:focus{color:#495057;background-color:#fff;border-color:#00f;outline:0;box-shadow:none}.form-control::-webkit-input-placeholder{color:#adb5bd;opacity:1}.form-control::-moz-placeholder{color:#adb5bd;opacity:1}.form-control:-ms-input-placeholder,.form-control::-ms-input-placeholder{color:#adb5bd;opacity:1}.form-control::placeholder{color:#adb5bd;opacity:1}.form-control:disabled,.form-control[readonly]{background-color:#e9ecef;opacity:1}select.form-control:focus::-ms-value{color:#495057;background-color:#fff}.form-control-lg{height:calc(3.1875rem + 4px);padding:.75rem 1.5rem;font-size:1.25rem;line-height:1.5;border-radius:.3rem}select.form-control[multiple],select.form-control[size],textarea.form-control{height:auto}.form-group{margin-bottom:1rem}.form-check{position:relative;display:block;padding-left:1.25rem}.form-check-input{position:absolute;margin-top:.3rem;margin-left:-1.25rem}.form-check-input:disabled~.form-check-label{color:#adb5bd}.form-check-label{margin-bottom:0}.btn{display:inline-block;font-weight:600;color:#212529;text-align:center;vertical-align:middle;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-color:transparent;border:2px solid transparent;padding:.5rem 1.125rem;font-size:1rem;line-height:1.6;border-radius:.25rem;transition:all .2s}@media (prefers-reduced-motion:reduce){.btn{transition:none}}.btn:hover{color:#212529;text-decoration:none}.btn.focus,.btn:focus{outline:0;box-shadow:none}.btn.disabled,.btn:disabled{opacity:.65}a.btn.disabled{pointer-events:none}.btn-primary{color:#fff;background-color:#00f;border-color:#00f}.btn-primary:hover{color:#fff;background-color:#0000d9;border-color:#00c}.btn-primary.focus,.btn-primary:focus{box-shadow:0 0 0 .2rem rgba(38,38,255,.5)}.btn-primary.disabled,.btn-primary:disabled{color:#fff;background-color:#00f;border-color:#00f}.btn-primary:not(:disabled):not(.disabled).active,.btn-primary:not(:disabled):not(.disabled):active,.show>.btn-primary.dropdown-toggle{color:#fff;background-color:#00c;border-color:#0000bf}.btn-primary:not(:disabled):not(.disabled).active:focus,.btn-primary:not(:disabled):not(.disabled):active:focus,.show>.btn-primary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(38,38,255,.5)}.btn-secondary{color:#fff;background-color:#7c4dff;border-color:#7c4dff}.btn-secondary:hover{color:#fff;background-color:#6027ff;border-color:#561aff}.btn-secondary.focus,.btn-secondary:focus{box-shadow:0 0 0 .2rem rgba(144,104,255,.5)}.btn-secondary.disabled,.btn-secondary:disabled{color:#fff;background-color:#7c4dff;border-color:#7c4dff}.btn-secondary:not(:disabled):not(.disabled).active,.btn-secondary:not(:disabled):not(.disabled):active,.show>.btn-secondary.dropdown-toggle{color:#fff;background-color:#561aff;border-color:#4d0dff}.btn-secondary:not(:disabled):not(.disabled).active:focus,.btn-secondary:not(:disabled):not(.disabled):active:focus,.show>.btn-secondary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(144,104,255,.5)}.btn-sm{padding:.45rem 1rem;font-size:.875rem;line-height:1.5;border-radius:.2rem}.btn-block{display:block;width:100%}.btn-block+.btn-block{margin-top:.5rem}input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-block{width:100%}.fade{transition:opacity .15s linear}@media (prefers-reduced-motion:reduce){.fade{transition:none}}.fade:not(.show){opacity:0}.collapse:not(.show){display:none}.dropdown{position:relative}.dropdown-toggle{white-space:nowrap}.dropdown-menu{position:absolute;top:100%;left:0;z-index:4;display:none;float:left;min-width:10rem;padding:.75rem 0;margin:.125rem 0 0;font-size:1rem;color:#212529;text-align:left;list-style:none;background-color:#fff;background-clip:padding-box;border:2px solid #f8f9fa;border-radius:.25rem}.dropdown-menu-right{right:0;left:auto}.dropdown-menu[x-placement^=bottom],.dropdown-menu[x-placement^=left],.dropdown-menu[x-placement^=right],.dropdown-menu[x-placement^=top]{right:auto;bottom:auto}.dropdown-divider{height:0;margin:.5rem 0;overflow:hidden;border-top:1px solid #f8f9fa}.dropdown-item{display:block;width:100%;padding:.25rem 1.5rem;clear:both;font-weight:400;color:#495057;text-align:inherit;white-space:nowrap;background-color:transparent;border:0}.dropdown-item:focus,.dropdown-item:hover{color:#212529;text-decoration:none;background-color:#f8f9fa}.dropdown-item.active,.dropdown-item:active{color:#fff;text-decoration:none;background-color:#00f}.dropdown-item.disabled,.dropdown-item:disabled{color:#868e96;pointer-events:none;background-color:transparent}.dropdown-menu.show{display:block}.nav{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;padding-left:0;margin-bottom:0;list-style:none}.nav-link{display:block;padding:.25rem 1rem}.nav-link:focus,.nav-link:hover{text-decoration:none}.nav-link.disabled{color:#ced4da;pointer-events:none;cursor:default}.navbar{position:relative;padding:1.25rem}.navbar,.navbar>.container,.navbar>.container-fluid{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-align:center;align-items:center;-ms-flex-pack:justify;justify-content:space-between}.navbar-brand{display:inline-block;padding-top:.15rem;padding-bottom:.15rem;margin-right:1.25rem;font-size:1.125rem;line-height:inherit;white-space:nowrap}.navbar-brand:focus,.navbar-brand:hover{text-decoration:none}.navbar-nav{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none}.navbar-nav .nav-link{padding-right:0;padding-left:0}.navbar-nav .dropdown-menu{position:static;float:none}.navbar-collapse{-ms-flex-preferred-size:100%;flex-basis:100%;-ms-flex-positive:1;flex-grow:1;-ms-flex-align:center;align-items:center}.navbar-toggler{padding:.25rem .75rem;font-size:1.125rem;line-height:1;background-color:transparent;border:2px solid transparent;border-radius:.25rem}.navbar-toggler:focus,.navbar-toggler:hover{text-decoration:none}@media (max-width:767.98px){.navbar-expand-md>.container,.navbar-expand-md>.container-fluid{padding-right:0;padding-left:0}}@media (min-width:768px){.navbar-expand-md{-ms-flex-flow:row nowrap;flex-flow:row nowrap;-ms-flex-pack:start;justify-content:flex-start}.navbar-expand-md .navbar-nav{-ms-flex-direction:row;flex-direction:row}.navbar-expand-md .navbar-nav .dropdown-menu{position:absolute}.navbar-expand-md .navbar-nav .nav-link{padding-right:.75rem;padding-left:.75rem}.navbar-expand-md>.container,.navbar-expand-md>.container-fluid{-ms-flex-wrap:nowrap;flex-wrap:nowrap}.navbar-expand-md .navbar-collapse{display:-ms-flexbox!important;display:flex!important;-ms-flex-preferred-size:auto;flex-basis:auto}.navbar-expand-md .navbar-toggler{display:none}}@media (max-width:991.98px){.navbar-expand-lg>.container,.navbar-expand-lg>.container-fluid{padding-right:0;padding-left:0}}@media (min-width:992px){.navbar-expand-lg{-ms-flex-flow:row nowrap;flex-flow:row nowrap;-ms-flex-pack:start;justify-content:flex-start}.navbar-expand-lg .navbar-nav{-ms-flex-direction:row;flex-direction:row}.navbar-expand-lg .navbar-nav .dropdown-menu{position:absolute}.navbar-expand-lg .navbar-nav .nav-link{padding-right:.75rem;padding-left:.75rem}.navbar-expand-lg>.container,.navbar-expand-lg>.container-fluid{-ms-flex-wrap:nowrap;flex-wrap:nowrap}.navbar-expand-lg .navbar-collapse{display:-ms-flexbox!important;display:flex!important;-ms-flex-preferred-size:auto;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}}.navbar-light .navbar-brand,.navbar-light .navbar-brand:focus,.navbar-light .navbar-brand:hover{color:rgba(0,0,0,.9)}.navbar-light .navbar-nav .nav-link{color:#adb5bd}.navbar-light .navbar-nav .nav-link:focus,.navbar-light .navbar-nav .nav-link:hover{color:#000}.navbar-light .navbar-nav .nav-link.disabled{color:#868e96}.navbar-light .navbar-nav .active>.nav-link,.navbar-light .navbar-nav .nav-link.active,.navbar-light .navbar-nav .nav-link.show,.navbar-light .navbar-nav .show>.nav-link{color:#00f}.navbar-light .navbar-toggler{color:#adb5bd;border-color:rgba(0,0,0,.1)}.navbar-dark .navbar-brand,.navbar-dark .navbar-brand:focus,.navbar-dark .navbar-brand:hover{color:#fff}.navbar-dark .navbar-nav .nav-link{color:hsla(0,0%,100%,.5)}.navbar-dark .navbar-nav .nav-link:focus,.navbar-dark .navbar-nav .nav-link:hover{color:hsla(0,0%,100%,.9)}.navbar-dark .navbar-nav .nav-link.disabled{color:hsla(0,0%,100%,.3)}.navbar-dark .navbar-nav .active>.nav-link,.navbar-dark .navbar-nav .nav-link.active,.navbar-dark .navbar-nav .nav-link.show,.navbar-dark .navbar-nav .show>.nav-link{color:#fff}.navbar-dark .navbar-toggler{color:hsla(0,0%,100%,.5);border-color:hsla(0,0%,100%,.1)}.card{position:relative;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;min-width:0;word-wrap:break-word;background-color:#fff;background-clip:border-box;border:2px solid #e9ecef;border-radius:.25rem}.card>hr{margin-right:0;margin-left:0}.card>.list-group:first-child .list-group-item:first-child{border-top-left-radius:.25rem;border-top-right-radius:.25rem}.card>.list-group:last-child .list-group-item:last-child{border-bottom-right-radius:.25rem;border-bottom-left-radius:.25rem}.card-body{-ms-flex:1 1 auto;flex:1 1 auto;padding:1.25rem}.card-title{margin-bottom:.75rem}.card-subtitle{margin-top:-.375rem}.card-subtitle,.card-text:last-child{margin-bottom:0}.card-link:hover{text-decoration:none}.card-link+.card-link{margin-left:1.25rem}.card-img-top{width:100%;border-top-left-radius:calc(.25rem - 2px);border-top-right-radius:calc(.25rem - 2px)}.badge{display:inline-block;padding:.4em .5em;font-size:75%;font-weight:600;line-height:1;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:4px;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.badge{transition:none}}a.badge:focus,a.badge:hover{text-decoration:none}.badge:empty{display:none}.btn .badge{position:relative;top:-1px}.badge-pill{padding-right:.6em;padding-left:.6em;border-radius:10rem}.badge-primary{color:#fff;background-color:#00f}a.badge-primary:focus,a.badge-primary:hover{color:#fff;background-color:#00c}a.badge-primary.focus,a.badge-primary:focus{outline:0;box-shadow:0 0 0 .2rem rgba(0,0,255,.5)}.list-group{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0}.list-group-item-action{width:100%;color:#495057;text-align:inherit}.list-group-item-action:focus,.list-group-item-action:hover{z-index:1;color:#495057;text-decoration:none;background-color:#f8f9fa}.list-group-item-action:active{color:#212529;background-color:#e9ecef}.list-group-item{position:relative;display:block;padding:.75rem 1.25rem;margin-bottom:-1px;background-color:#fff;border:1px solid rgba(0,0,0,.125)}.list-group-item:first-child{border-top-left-radius:.25rem;border-top-right-radius:.25rem}.list-group-item:last-child{margin-bottom:0;border-bottom-right-radius:.25rem;border-bottom-left-radius:.25rem}.list-group-item.disabled,.list-group-item:disabled{color:#6c757d;pointer-events:none;background-color:#fff}.list-group-item.active{z-index:2;color:#fff;background-color:#007bff;border-color:#007bff}.list-group-horizontal{-ms-flex-direction:row;flex-direction:row}.list-group-horizontal .list-group-item{margin-right:-1px;margin-bottom:0}.list-group-horizontal .list-group-item:first-child{border-top-left-radius:.25rem;border-bottom-left-radius:.25rem;border-top-right-radius:0}.list-group-horizontal .list-group-item:last-child{margin-right:0;border-top-right-radius:.25rem;border-bottom-right-radius:.25rem;border-bottom-left-radius:0}.close{float:right;font-size:2rem;font-weight:600;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:.5}.close:hover{color:#000;text-decoration:none}.close:not(:disabled):not(.disabled):focus,.close:not(:disabled):not(.disabled):hover{opacity:.75}button.close{padding:0;background-color:transparent;border:0;-webkit-appearance:none;-moz-appearance:none;appearance:none}a.close.disabled{pointer-events:none}.bg-primary{background-color:#00f!important}a.bg-primary:focus,a.bg-primary:hover,button.bg-primary:focus,button.bg-primary:hover{background-color:#00c!important}.border{border:2px solid #e9ecef!important}.border-top{border-top:2px solid #e9ecef!important}.border-right{border-right:2px solid #e9ecef!important}.border-bottom{border-bottom:2px solid #e9ecef!important}.border-left{border-left:2px solid #e9ecef!important}.border-0{border:0!important}.border-primary{border-color:#00f!important}.rounded{border-radius:.25rem!important}.rounded-circle{border-radius:50%!important}.clearfix:after{display:block;clear:both;content:""}.d-none{display:none!important}.d-inline{display:inline!important}.d-block{display:block!important}.d-flex{display:-ms-flexbox!important;display:flex!important}.d-inline-flex{display:-ms-inline-flexbox!important;display:inline-flex!important}@media (min-width:768px){.d-md-flex{display:-ms-flexbox!important;display:flex!important}}@media print{.d-print-none{display:none!important}}.flex-row{-ms-flex-direction:row!important;flex-direction:row!important}.flex-column{-ms-flex-direction:column!important;flex-direction:column!important}.flex-wrap{-ms-flex-wrap:wrap!important;flex-wrap:wrap!important}.justify-content-center{-ms-flex-pack:center!important;justify-content:center!important}.align-items-center{-ms-flex-align:center!important;align-items:center!important}@media (min-width:768px){.flex-md-row{-ms-flex-direction:row!important;flex-direction:row!important}.justify-content-md-between{-ms-flex-pack:justify!important;justify-content:space-between!important}.align-items-md-center{-ms-flex-align:center!important;align-items:center!important}}.float-right{float:right!important}.fixed-bottom{position:fixed;right:0;bottom:0;left:0;z-index:6}@supports ((position:-webkit-sticky) or (position:sticky)){.sticky-top{position:-webkit-sticky;position:sticky;top:0;z-index:5}}.vh-100{height:100vh!important}.m-0{margin:0!important}.mt-0{margin-top:0!important}.mr-0{margin-right:0!important}.mb-0{margin-bottom:0!important}.mr-1{margin-right:.25rem!important}.ml-1{margin-left:.25rem!important}.mr-2{margin-right:.5rem!important}.ml-2{margin-left:.5rem!important}.mt-3,.my-3{margin-top:1rem!important}.mb-3,.my-3{margin-bottom:1rem!important}.ml-3{margin-left:1rem!important}.mt-4,.my-4{margin-top:1.5rem!important}.mb-4,.my-4{margin-bottom:1.5rem!important}.mt-5{margin-top:3rem!important}.mb-5{margin-bottom:3rem!important}.p-0{padding:0!important}.px-0{padding-right:0!important}.pb-0{padding-bottom:0!important}.pl-0,.px-0{padding-left:0!important}.pt-1{padding-top:.25rem!important}.px-1{padding-right:.25rem!important;padding-left:.25rem!important}.p-2{padding:.5rem!important}.py-2{padding-top:.5rem!important}.pr-2,.px-2{padding-right:.5rem!important}.py-2{padding-bottom:.5rem!important}.px-2{padding-left:.5rem!important}.p-3{padding:1rem!important}.pt-3,.py-3{padding-top:1rem!important}.pb-3,.py-3{padding-bottom:1rem!important}.p-4{padding:1.5rem!important}.pt-4,.py-4{padding-top:1.5rem!important}.py-4{padding-bottom:1.5rem!important}.py-5{padding-top:3rem!important}.pb-5,.py-5{padding-bottom:3rem!important}.pt-6,.py-6{padding-top:6rem!important}.py-6{padding-bottom:6rem!important}.my-auto{margin-top:auto!important}.mr-auto,.mx-auto{margin-right:auto!important}.my-auto{margin-bottom:auto!important}.ml-auto,.mx-auto{margin-left:auto!important}@media (min-width:768px){.mt-md-0{margin-top:0!important}.mx-md-0{margin-right:0!important}.mb-md-0{margin-bottom:0!important}.mx-md-0{margin-left:0!important}.ml-md-3{margin-left:1rem!important}.pt-md-0,.py-md-0{padding-top:0!important}.px-md-0{padding-right:0!important}.pb-md-0,.py-md-0{padding-bottom:0!important}.px-md-0{padding-left:0!important}.py-md-2{padding-top:.5rem!important;padding-bottom:.5rem!important}.px-md-3{padding-right:1rem!important;padding-left:1rem!important}.pt-md-5{padding-top:3rem!important}.px-md-5{padding-right:3rem!important;padding-left:3rem!important}.py-md-6{padding-top:6rem!important}.px-md-6{padding-right:6rem!important}.py-md-6{padding-bottom:6rem!important}.px-md-6{padding-left:6rem!important}.my-md-auto{margin-top:auto!important;margin-bottom:auto!important}}.text-left{text-align:left!important}.text-right{text-align:right!important}.text-center{text-align:center!important}@media (min-width:768px){.text-md-left{text-align:left!important}.text-md-right{text-align:right!important}}.text-lowercase{text-transform:lowercase!important}.text-uppercase{text-transform:uppercase!important}.font-weight-bold{font-weight:600!important}.font-italic{font-style:italic!important}.text-white{color:#fff!important}.text-primary{color:#00f!important}a.text-primary:focus,a.text-primary:hover{color:#0000b3!important}.text-muted{color:#adb5bd!important}.visible{visibility:visible!important}@media print{*,:after,:before{text-shadow:none!important;box-shadow:none!important}a:not(.btn){text-decoration:underline}pre{white-space:pre-wrap!important}blockquote,pre{border:2px solid #adb5bd;page-break-inside:avoid}thead{display:table-header-group}img,tr{page-break-inside:avoid}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}@page{size:a3}.container,body{min-width:992px!important}.navbar{display:none}.badge{border:2px solid #000}.table{border-collapse:collapse!important}.table td,.table th{background-color:#fff!important}}::-moz-selection{background-color:#00f!important;color:#fff}::selection{background-color:#00f!important;color:#fff}body{transition:all .5s ease-in-out}.small-xl{font-size:90%}.large-sm{font-size:1.1rem}.large-lg{font-size:1.15rem}a:not(.btn):not(.dropdown-item):not(.nav-link):not(.social-link):not(.link-black):not(.card-title):not(.navbar-brand):not(.no-border):not(.anchor-link):not(.dropdown-toggle){border-bottom:2px solid rgba(0,0,255,.1);font-weight:600;transition:all .25s ease-out}a:not(.btn):not(.dropdown-item):not(.nav-link):not(.social-link):not(.link-black):not(.card-title):not(.navbar-brand):not(.no-border):not(.anchor-link):not(.dropdown-toggle):hover{border-bottom:2px solid #00f;background-color:rgba(0,0,255,.03)}a:not(.btn):not(.dropdown-item):not(.nav-link):not(.social-link):not(.link-black):not(.card-title):not(.navbar-brand):not(.no-border):not(.anchor-link):not(.dropdown-toggle):active,a:not(.btn):not(.dropdown-item):not(.nav-link):not(.social-link):not(.link-black):not(.card-title):not(.navbar-brand):not(.no-border):not(.anchor-link):not(.dropdown-toggle):focus{border-bottom:2px dashed #00f;background-color:rgba(0,0,255,.03)}.link-black{color:#000}.link-black:hover{color:#00f!important}.heading-black{font-weight:900;font-size:2.5rem}.heading-xlarge{font-size:4rem}.img-brand{width:auto;height:28px;transition:all .25s ease-out}@media (max-width:991.98px){.img-brand{height:25px}}.img-shadow{box-shadow:0 10px 80px rgba(0,0,0,.07)}.img-raised{transition:all .25s ease-out}.img-raised:hover{-webkit-transform:scale(1.01);transform:scale(1.01)}.font-weight-medium{font-weight:500}.coffee-link{color:#ff1744}.coffee-link:hover{color:#ff4081}.bg-light{background-color:#f8f9fa}.badge{text-transform:uppercase;line-height:11px}.badge.badge-soft-blue{color:#00f;background-color:rgba(0,0,255,.05)}.badge.badge-soft-purple{color:#7c4dff;background-color:rgba(124,77,255,.05)}.badge.badge-soft-red{color:#ff1744;background-color:rgba(255,23,68,.05)}.badge.badge-soft-green{color:#2bbd3e;background-color:rgba(43,189,62,.05)}.badge.badge-soft-gray-dark{color:#343a40;background-color:rgba(52,58,64,.05)}span.bull{color:#00f!important;font-size:14px;position:relative;top:-1px;margin:0 .5rem;font-weight:400}.text-black{color:#000}.btn{transition:all .25s ease-out}.btn:active,.btn:focus{box-shadow:none!important}.btn.btn-soft-primary{color:#00f;background-color:rgba(0,0,255,.0875)}.btn.btn-soft-primary:active,.btn.btn-soft-primary:hover{background-color:rgba(0,0,255,.125)}.btn.bg-twitter{color:#fff;background-color:#4099ff}.btn.bg-facebook{color:#fff;background-color:#3b5998}.btn.bg-linkedin{color:#fff;background-color:#007bb5}.navbar .navbar-brand{font-size:1.5rem;font-weight:800;text-transform:uppercase}.navbar .navbar-nav .nav-item{margin:0 .5rem}.navbar .navbar-nav .nav-item .nav-link{font-weight:600}.navbar .navbar-toggler{border:none;outline:none}.hamburger-nav .close{color:#00f!important;outline:none}.hamburger-nav ul{list-style:none}.hamburger-nav ul li{margin-bottom:2rem}.hamburger-nav ul li a{color:#adb5bd;font-weight:600}.hamburger-nav ul li a:hover{color:#000}.hamburger-nav ul li a.active{color:#00f}.hamburger-icon{color:#00f;cursor:pointer;width:1.25rem;height:1.25rem;opacity:.5}.hamburger-icon:hover{opacity:1}.vh-100{height:100vh}@media (min-width:768px){.vh-md-100{height:100vh}}footer a{color:#adb5bd;text-decoration:none;font-weight:500;transition:all .25s ease-out}footer a:hover{color:#00f;text-decoration:none}.social-icons a{color:#adb5bd;padding:.5rem}.social-icons a:hover{color:#00f;transition:all .4s ease-in-out;box-shadow:none}.scroll-top{bottom:20px;font-size:20px;height:40px;position:fixed;text-align:center;width:40px;z-index:11;cursor:pointer;transition:.3s;border-radius:50%;line-height:40px;right:-100px;color:#fff;background-color:rgba(0,0,255,.5)}.scroll-top:hover{background-color:blue;transition:all .4s ease-in-out}.scroll-top.active{right:20px}.loader{border:5px solid transparent;border-left:5px solid #00f;border-bottom:5px solid #00f;border-radius:50%;width:50px;height:50px;-webkit-animation:a 1s linear infinite;animation:a 1s linear infinite}@-webkit-keyframes a{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes a{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}.popup-open{overflow:hidden}section.popup-section{position:fixed;z-index:7;top:0;left:0;width:100%;height:100%;background:#fff;overflow-x:hidden;overflow-y:auto}section.popup-section .container,section.popup-section .container-fluid{position:relative}section.popup-section .close{position:fixed;color:#000;top:30px;right:50px;z-index:8}@media (max-width:768px){section.popup-section .close{top:20px;right:20px}}section.popup-section .technology-list .badge{background:rgba(0,0,255,.1);border-radius:50px;padding:.5rem;font-weight:500;text-transform:uppercase;font-size:11px;margin-bottom:.5rem;margin-right:.5rem;cursor:pointer}section.popup-section .technology-list .badge:hover{opacity:1!important}section.popup-section .technology-list:hover .badge{opacity:.5;transition:all .25s ease-out}img[data-action=zoom]{cursor:zoom-in}.zoom-img,.zoom-img-wrap{position:relative;z-index:10;transition:all .3s}.zoom-overlay,img.zoom-img{cursor:zoom-out}.zoom-overlay{z-index:9;background:#fff;position:fixed;top:0;left:0;right:0;bottom:0;filter:"alpha(opacity=0)";opacity:0;transition:opacity .3s}.zoom-overlay-open .zoom-overlay{filter:"alpha(opacity=100)";opacity:1}.features-list{list-style:none;margin:0;padding:0}.features-list li{float:left;width:50%;margin-top:0;margin-bottom:.875rem;font-size:1.0875rem;font-weight:500}@media (max-width:767.98px){.features-list li{width:100%}}.features-list li:before{position:relative;display:inline-block;content:"";color:#00f;background:rgba(0,0,255,.15) url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLWNoZWNrIj48cG9seWxpbmUgcG9pbnRzPSIyMCA2IDkgMTcgNCAxMiI+PC9wb2x5bGluZT48L3N2Zz4=) no-repeat 50%;margin:0 .75rem 0 0;background-size:14px 14px;height:20px;width:20px;top:4px;border-radius:50%}.latest-posts li{margin-bottom:1rem}.latest-posts li a{font-size:1.1rem}.post-title h1{font-size:2.25rem}.post-content{font-size:1.1rem!important;line-height:2rem}.post-content b,.post-content strong{color:#000}.post-content blockquote,.post-content img,.post-content p,.post-content pre,.post-content ul{margin-bottom:1.75rem!important}.post-content img:not(.no-style){max-width:100%;height:auto;border-radius:.25rem;margin:0 auto;display:block}.post-content ul li{margin-bottom:.5rem}.post-content h2{font-size:1.575rem}.post-content h3{font-size:1.375rem}.post-content h4{font-size:1.25rem}.post-content pre[class*=language-]{padding:1.5rem}.post-content code[class*=language-],.post-content pre[class*=language-]{line-height:1.6rem;font-size:.875rem;font-family:SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}.post-content .file-desc{color:#adb5bd;text-align:right;margin-bottom:.5em!important;font-family:SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:.9rem}.post-content .file-desc:before{content:"\2193 \00a0";color:rgba(0,0,255,.6)}.post-content .file-desc span{border-bottom:2px solid #e9ecef}.post-content pre{padding:.5rem;border-radius:.25rem;background:#1d262f;color:#d6deeb}.post-content code:not([class*=language-]){padding:.25rem .4rem;background-color:#f8f9fa;color:#ff1744;border-radius:.25rem;margin:0 .05em;-moz-tab-size:2;-o-tab-size:2;tab-size:2;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}.post-content .h1,.post-content .h2,.post-content .h3,.post-content .h4,.post-content .h5,.post-content .h6,.post-content h1,.post-content h2,.post-content h3,.post-content h4,.post-content h5,.post-content h6{margin-top:2rem;margin-bottom:1.8rem}.post-content .h1 code,.post-content .h2 code,.post-content .h3 code,.post-content .h4 code,.post-content .h5 code,.post-content .h6 code,.post-content h1 code,.post-content h2 code,.post-content h3 code,.post-content h4 code,.post-content h5 code,.post-content h6 code{padding:.05rem .25rem!important;font-size:100%!important;color:#000!important;margin:0 .25rem!important}.post-content blockquote{padding:1.5rem 1rem;border:2px solid #e9ecef;border-radius:.25rem;box-shadow:.5rem .5rem 0 rgba(222,226,230,.5)}.post-content blockquote p{margin-bottom:0!important}.docs-content ul,.post-content ul,ul.feature-dots{list-style:none;margin-bottom:1.5rem;padding-left:1rem}.docs-content ul li,.post-content ul li,ul.feature-dots li{margin-bottom:.75rem;padding-left:1rem;position:relative}.docs-content ul li:before,.post-content ul li:before,ul.feature-dots li:before{content:"";width:7px;height:7px;border-radius:50%;background-color:rgba(0,0,255,.6);position:absolute;top:12px;left:0}ul.feature-dots{margin-bottom:2rem}.border-heading,.post-content h2{padding-bottom:.5rem;margin-top:3rem;border-bottom:2px solid rgba(0,0,255,.05)}.docs-content{font-size:1.1rem}.table thead tr>th{color:#adb5bd;font-size:.8rem;font-weight:600;text-transform:uppercase}.table tbody tr td{font-size:.95rem}.top-badge[data-badge]{position:relative}.top-badge[data-badge]:after{content:attr(data-badge);position:absolute;top:-4px;right:11px;font-size:.7em;background:#00f;color:#fff;width:6px;height:6px;text-align:center;line-height:18px;border-radius:50%}.top-badge[data-badge].left:after{left:1.25rem!important;top:-.25rem!important}.anchor-heading,.anchor-heading .anchor-link{-ms-flex-direction:row;flex-direction:row;-ms-flex-align:center;align-items:center}.anchor-heading .anchor-link{display:-ms-inline-flexbox;display:inline-flex;color:#00f!important;padding-left:.25rem;text-decoration:none;opacity:0;transition:opacity .25s ease-in-out}.anchor-heading .anchor-link:hover{opacity:1!important}.anchor-heading .anchor-link svg{width:1.375rem;height:1.375rem}.anchor-heading:hover .anchor-link{opacity:.5}.scroll-bar{background:linear-gradient(90deg,rgba(0,0,255,.45) var(--scroll-x),transparent 0);position:fixed;width:100%;height:3px;z-index:3}.divider{width:3.125rem!important;height:.25rem;border-radius:.25rem!important;margin-top:1.5rem;margin-bottom:1.5rem}.bg-soft-primary{background-color:rgba(0,0,255,.03)}.bg-medium-primary{background-color:rgba(0,0,255,.1)}.bg-soft-secondary{background-color:rgba(124,77,255,.03)}.card{transition:all .25s ease-out}.card.card-shadow{box-shadow:0 .75rem 1.5rem rgba(0,0,0,.03)}.list-group .list-group-item.active{font-weight:600;border-radius:.25rem}.list-group.list-group-borderless .list-group-item{border-width:0}.list-group.list-group-sm .list-group-item{padding:.75rem .5rem}.list-group.list-group-posts .list-group-item{border:2px solid transparent}.list-group.list-group-posts .list-group-item h2{font-size:1.3rem;line-height:1.3}.list-group.list-group-posts .list-group-item.active,.list-group.list-group-posts .list-group-item:hover{border-radius:.25rem}.list-group.list-group-posts .list-group-item:active{background-color:rgba(0,0,255,.05);border:2px dashed #00f}.shadow-3d-blue{box-shadow:.5rem .5rem 0 rgba(0,0,255,.25)!important}.topic-container{margin-bottom:1.5rem;display:-ms-flexbox;display:flex;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}.topic-container .topic{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;font-size:.85rem;padding:.5rem .75rem;background:rgba(0,0,255,.05);border-radius:.25rem;margin-right:.5rem;margin-bottom:.5rem;font-weight:600;color:#00f;cursor:pointer}.topic-container .topic:hover{background:rgba(0,0,255,.1)}.topic-container .topic.active{color:#fff;background-color:#00f}code[class*=language-],pre[class*=language-]{color:#d6deeb;font-family:Consolas,Bitstream Vera Sans Mono,Courier New,Courier,monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;border:1px solid transparent;background-color:#1d262f}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.namespace{opacity:.7}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#d4d0ab}.token.string{color:#addb67}.token.attr-value{color:#7fdbca}.token.operator,.token.punctuation{color:#c792ea}.token.boolean,.token.constant,.token.entity,.token.inserted,.token.number,.token.property,.token.regex,.token.symbol,.token.url,.token.variable{color:#ffa07a}.token.attr-name{color:#addb67}.token.atrule,.token.keyword{color:#7fdbca}.token.deleted,.token.function{color:#82aaff}.token.selector,.token.tag{color:#7fdbca}</style>
+    
+
+    
+        <!--favicon icons-->
+        <link rel="apple-touch-icon" sizes="180x180" href="https://attacomsian.com/img/ico/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://attacomsian.com/img/ico/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://attacomsian.com/img/ico/favicon-16x16.png">
+        <link rel="manifest" href="https://attacomsian.com/img/ico/site.webmanifest">
+        <link rel="mask-icon" href="https://attacomsian.com/img/ico/safari-pinned-tab.svg" color="#0000ff">
+        <link rel="shortcut icon" href="https://attacomsian.com/img/ico/favicon.ico">
+        <meta name="msapplication-TileColor" content="#603cba">
+        <meta name="msapplication-config" content="/img/ico/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+    
+<meta name="description" content="A step by step guide to create and use a one to many relationship mapping in a Spring Data JPA and MySQL application.">
+<link rel="amphtml" href="https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping?amp">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@attacomsian">
+<meta name="twitter:creator" content="@attacomsian">
+<meta name="twitter:title" content="Spring Data JPA One To Many Relationship Mapping Example">
+<meta name="twitter:description" content="A step by step guide to create and use a one to many relationship mapping in a Spring Data JPA and MySQL application.">
+<meta name="twitter:image" content="https://attacomsian.com/social-banner/spring-data-jpa-one-to-many-mapping">
+<!-- Facebook -->
+<meta property="og:title" content="Spring Data JPA One To Many Relationship Mapping Example">
+<meta property="og:description" content="A step by step guide to create and use a one to many relationship mapping in a Spring Data JPA and MySQL application.">
+<meta property="og:url" content="https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Atta's Blog">
+<meta property="og:image" content="https://attacomsian.com/social-banner/spring-data-jpa-one-to-many-mapping">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="600">
+<meta property="og:image:alt" content="Spring Data JPA One To Many Relationship Mapping Example">
+<meta property="article:published_time" content="2019-10-13T11:24:08.000+00:00">
+<meta property="article:modified_time" content="2019-10-20T20:35:44.000+00:00">
+<meta property="article:tag" content="mysql"><meta property="article:tag" content="spring boot"><meta property="article:tag" content="spring data jpa">
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","publisher":{"@type":"Organization","name":"Atta's Blog","url":"https://attacomsian.com/blog","logo":{"@type":"ImageObject","url":"http://attacomsian.com/img/icon.png","width":512,"height":512}},"author":{"@type":"Person","name":"Atta-Ur-Rehman Shah","jobTitle":"Founder. Developer. Blogger.","url":"https://attacomsian.com","sameAs":["https://twitter.com/attacomsian","https://github.com/attacomsian","https://www.linkedin.com/in/attacomsian","https://dev.to/attacomsian","https://stackoverflow.com/users/4090386/attacomsian","https://medium.com/@attacomsian"],"image":{"@type":"ImageObject","url":"https://attacomsian.com/img/banner.jpg","width":1002,"height":669}},"headline":"Spring Data JPA One To Many Relationship Mapping Example","url":"https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping","datePublished":"2019-10-13T11:24:08.000+00:00","dateModified":"2019-10-20T20:35:44.000+00:00","keywords":"mysql, spring boot, spring data jpa","description":"A step by step guide to create and use a one to many relationship mapping in a Spring Data JPA and MySQL application.","image":{"@type":"ImageObject","url":"https://attacomsian.com/social-banner/spring-data-jpa-one-to-many-mapping","width":"1024","height":"600"},"genre":["Tutorials","Coding"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://attacomsian.com"}}</script>
+
+</head>
+<body>
+
+<div class="scroll-bar" wfd-id="748" style="--scroll-x:0%;"></div>
+
+<!--top message bar-->
+
+
+<!--navigation-->
+<div class="container px-md-0 py-md-2" wfd-id="737">
+    <div class="row no-gutters" wfd-id="738">
+        <div class="col" wfd-id="740">
+            <nav class="navbar navbar-expand-md navbar-light px-0" id="top-navbar">
+                <a class="navbar-brand mr-0" href="https://attacomsian.com/">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJpc29sYXRpb246aXNvbGF0ZSIgdmlld0JveD0iMCAwIDU0Ni45ODMgMjA2Ljc5IiB3aWR0aD0iNzI5LjMxMSIgaGVpZ2h0PSIyNzUuNzIiPjxkZWZzPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggZD0iTTAgMGg1NDYuOTgzdjIwNi43OUgweiIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggZD0iTTEwMi42ODIgMjA2LjM0N2MtMy44NDcgMC03LjY5My0xLjQ3LTEwLjYyNC00LjQxbC04Ny42OC04Ny45NTFjLTUuODM3LTUuODU1LTUuODM3LTE1LjMyOCAwLTIxLjE4M2w4Ny42OC04Ny45NWM1Ljg1LTUuODY4IDE1LjM0Ny01Ljg4MiAyMS4yMTUtLjAzMyA1Ljg2OCA1Ljg1IDUuODgzIDE1LjM0OC4wMzMgMjEuMjE2bC03Ny4xMjEgNzcuMzU4IDc3LjEyMSA3Ny4zNTljNS44NDkgNS44NjggNS44MzUgMTUuMzY2LS4wMzMgMjEuMjE2YTE0Ljk1MyAxNC45NTMgMCAwIDEtMTAuNTkxIDQuMzc4ek00NDQuMzAyIDIwNi4zNDdhMTQuOTU4IDE0Ljk1OCAwIDAgMS0xMC41OTEtNC4zNzdjLTUuODY4LTUuODQ5LTUuODgzLTE1LjM0OC0uMDMzLTIxLjIxNmw3Ny4xMi03Ny4zNTktNzcuMTItNzcuMzU4Yy01Ljg0OS01Ljg2OC01LjgzNS0xNS4zNjYuMDMzLTIxLjIxNiA1Ljg2Ni01Ljg1IDE1LjM2NS01LjgzNSAyMS4yMTUuMDMzbDg3LjY3OSA4Ny45NWM1LjgzNyA1Ljg1NSA1LjgzNyAxNS4zMjggMCAyMS4xODNsLTg3LjY3OSA4Ny45NTFhMTQuOTYgMTQuOTYgMCAwIDEtMTAuNjI0IDQuNDA5eiIgZmlsbD0iIzAwRiIvPjxwYXRoIGQ9Ik0xNTQuMjYgNS4yNDFBMTUuMDA1IDE1LjAwNSAwIDAgMSAxNjUuNjUyIDBoMjIwLjY5NmExNSAxNSAwIDAgMSAxNC44MjMgMTcuMzAybC0xMC4yMjkgNjUuODlhMTQuOTk4IDE0Ljk5OCAwIDAgMS04LjY1NiAxMS4zNzNsLTQ0LjczNCAyMC4xNzEtMzIuNjk0IDgyLjU3NmExNSAxNSAwIDAgMS0xMy45NDYgOS40NzhoLTI5LjgxOGExNC45OTggMTQuOTk4IDAgMCAxLTEzLjk0Ni05LjQ3OGwtMzIuNjk0LTgyLjU3Ni00NC43MzktMjAuMTcyYTE0Ljk5OCAxNC45OTggMCAwIDEtOC42NTYtMTEuMzczbC0xMC4yMjktNjUuODlhMTUuMDAxIDE1LjAwMSAwIDAgMSAzLjQzLTEyLjA2eiIgZmlsbD0iI0ZGNDA4MSIvPjxwYXRoIGQ9Ik0zODYuMzQ4IDBhMTUgMTUgMCAwIDEgMTQuODIzIDE3LjMwMmwtMTAuMjI5IDY1Ljg5YTE0Ljk5OCAxNC45OTggMCAwIDEtOC42NTYgMTEuMzczbC00NC43MzQgMjAuMTcxLTMyLjY5NCA4Mi41NzZhMTUgMTUgMCAwIDEtMTMuOTQ2IDkuNDc4SDI3NlYwaDExMC4zNDh6IiBmaWxsPSIjRkYxNzQ0Ii8+PC9nPjwvc3ZnPg==" class="img-fluid img-brand" alt="Atta" width="50" height="50">
+                </a>
+                <div class="navbar-toggler my-auto mx-auto p-0" tabindex="0" onclick="toggleHamburgers()" role="button" aria-controls="top-menu" aria-expanded="false" aria-label="Menu" wfd-id="747">
+                    <div class="hamburger-icon m-0">
+                        
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="19" cy="12" r="1"></circle>
+            <circle cx="5" cy="12" r="1"></circle>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="top-menu" wfd-id="741">
+                    <ul class="navbar-nav ml-auto pr-2" wfd-id="742">
+                        <li class="nav-item" wfd-id="746">
+                            <a class="nav-link" href="https://attacomsian.com/about">Me</a>
+                        </li>
+                        <li class="nav-item" wfd-id="745">
+                            <a class="nav-link active" href="https://attacomsian.com/blog">Blog</a>
+                        </li>
+                        <li class="nav-item" wfd-id="744">
+                            <a class="nav-link" title="Join Weekly Newsletter" href="https://attacomsian.com/newsletter">Subscribe</a>
+                        </li>
+                        <li class="nav-item" wfd-id="743">
+                            <a class="nav-link top-badge" data-badge="" target="_blank" title="Follow me on Twitter" href="https://twitter.com/attacomsian">Twitter</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-auto my-auto" wfd-id="739">
+            <a class="coffee-link no-border" title="Buy Me a Coffee" target="_blank" href="https://buymeacoffee.com/attacomsian" rel="noopener nofollow">
+                
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-coffee">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+        
+        
+        
+    </svg>
+
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--hamburgers popup-->
+<section class="popup-section hamburger-nav d-none" id="mobile-navigation" wfd-id="736">
+    <div class="container">
+        <button class="d-flex flex-row align-items-center ml-auto close d-print-none" onclick="toggleHamburgers();" wfd-id="751">
+            
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+        
+        
+        
+        
+        
+        
+        
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+        </button>
+        <div class="row vh-100">
+            <div class="col-md-6 col-sm-8 col-12 mx-auto text-center my-auto">
+                <ul class="pl-0">
+                    <li><a href="https://attacomsian.com/about">Me</a>
+                    </li>
+                    <li><a href="https://attacomsian.com/templates/pages/blog" class="active">Blog</a></li>
+                    <li><a href="https://attacomsian.com/newsletter">Subscribe</a>
+                    </li>
+                    <li><a href="https://attacomsian.com/#hire">Work With Me</a>
+                    </li>
+                    <li>
+                        <a title="Buy me a coffee for $3" target="_blank" rel="noopener nofollow" href="https://buymeacoffee.com/attacomsian">☕ Buy Me a Coffee</a>
+                    </li>
+                    <li>
+                        <a title="Follow me on Twitter" rel="noopener" target="_blank" href="https://twitter.com/attacomsian">Follow me on Twitter</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <!--article section-->
+    <section class="pb-5 pt-md-5 pt-4" wfd-id="23">
+        <div class="container" wfd-id="24">
+            <div class="row" wfd-id="25">
+                <div class="col-12" wfd-id="26">
+                    <div class="post-title text-center" wfd-id="732">
+                        <h1>Spring Data JPA One To Many Relationship Mapping Example</h1>
+                        <p class="mb-3">
+                            <span class="badge badge-pill badge-soft-gray-dark text-black mr-1" wfd-id="735">MySQL</span><span class="badge badge-pill badge-soft-gray-dark text-black mr-1" wfd-id="734">Spring Boot</span><span class="badge badge-pill badge-soft-gray-dark text-black mr-1" wfd-id="733">Spring Data JPA</span>
+                            
+                            
+                        </p>
+                        <p class="large-sm">
+                            <time class="text-muted" datetime="2019-10-13T11:24:08.000+00:00">October 13, 2019</time>
+                            
+                            
+                        </p>
+                    </div>
+                    <div class="post-content mt-4" wfd-id="39">
+                        
+                        <p>In the <a href="https://attacomsian.com/blog/spring-data-jpa-one-to-one-mapping">previous article</a>, I wrote about how to define and use a one-to-one relationship with <a href="https://attacomsian.com/blog/getting-started-spring-data-jpa">Spring Data JPA</a> and MySQL in a Spring Boot application.</p>
+<p>In this article, you'll <strong>learn how to map a one-to-many database relationship</strong> using Spring Data JPA in a Spring Boot and MySQL application.</p>
+<h2 id="dependencies" class="anchor-heading">Dependencies<a class="anchor-link" href="#dependencies" aria-label="Dependencies" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>We need both <code>spring-data-starter-data-jpa</code> and <code>mysql-connector-java</code> dependencies to use <a href="https://attacomsian.com/blog/accessing-data-spring-data-jpa-mysql">Spring Data JPA with the MySQL database</a> in Spring Boot.</p>
+<p>If you are using Gradle, add the following dependencies to your <code>build.gradle</code> file:</p>
+<pre class=" language-groovy"><code class=" language-groovy">implementation <span class="token string" wfd-id="731">'org.springframework.boot:spring-boot-starter-data-jpa'</span>
+runtimeOnly <span class="token string" wfd-id="730">'mysql:mysql-connector-java'</span>
+</code></pre>
+<p>If you are using Maven, include the following dependencies to your <code>pom.xml</code> file:</p>
+<pre class=" language-xml"><code class=" language-xml"><span class="token tag" wfd-id="726"><span class="token tag" wfd-id="728"><span class="token punctuation" wfd-id="729">&lt;</span>dependency</span><span class="token punctuation" wfd-id="727">&gt;</span></span>
+    <span class="token tag" wfd-id="722"><span class="token tag" wfd-id="724"><span class="token punctuation" wfd-id="725">&lt;</span>groupId</span><span class="token punctuation" wfd-id="723">&gt;</span></span>org.springframework.boot<span class="token tag" wfd-id="718"><span class="token tag" wfd-id="720"><span class="token punctuation" wfd-id="721">&lt;/</span>groupId</span><span class="token punctuation" wfd-id="719">&gt;</span></span>
+    <span class="token tag" wfd-id="714"><span class="token tag" wfd-id="716"><span class="token punctuation" wfd-id="717">&lt;</span>artifactId</span><span class="token punctuation" wfd-id="715">&gt;</span></span>spring-boot-starter-data-jpa<span class="token tag" wfd-id="710"><span class="token tag" wfd-id="712"><span class="token punctuation" wfd-id="713">&lt;/</span>artifactId</span><span class="token punctuation" wfd-id="711">&gt;</span></span>
+<span class="token tag" wfd-id="706"><span class="token tag" wfd-id="708"><span class="token punctuation" wfd-id="709">&lt;/</span>dependency</span><span class="token punctuation" wfd-id="707">&gt;</span></span>
+<span class="token tag" wfd-id="702"><span class="token tag" wfd-id="704"><span class="token punctuation" wfd-id="705">&lt;</span>dependency</span><span class="token punctuation" wfd-id="703">&gt;</span></span>
+    <span class="token tag" wfd-id="698"><span class="token tag" wfd-id="700"><span class="token punctuation" wfd-id="701">&lt;</span>groupId</span><span class="token punctuation" wfd-id="699">&gt;</span></span>mysql<span class="token tag" wfd-id="694"><span class="token tag" wfd-id="696"><span class="token punctuation" wfd-id="697">&lt;/</span>groupId</span><span class="token punctuation" wfd-id="695">&gt;</span></span>
+    <span class="token tag" wfd-id="690"><span class="token tag" wfd-id="692"><span class="token punctuation" wfd-id="693">&lt;</span>artifactId</span><span class="token punctuation" wfd-id="691">&gt;</span></span>mysql-connector-java<span class="token tag" wfd-id="686"><span class="token tag" wfd-id="688"><span class="token punctuation" wfd-id="689">&lt;/</span>artifactId</span><span class="token punctuation" wfd-id="687">&gt;</span></span>
+    <span class="token tag" wfd-id="682"><span class="token tag" wfd-id="684"><span class="token punctuation" wfd-id="685">&lt;</span>scope</span><span class="token punctuation" wfd-id="683">&gt;</span></span>runtime<span class="token tag" wfd-id="678"><span class="token tag" wfd-id="680"><span class="token punctuation" wfd-id="681">&lt;/</span>scope</span><span class="token punctuation" wfd-id="679">&gt;</span></span>
+<span class="token tag" wfd-id="674"><span class="token tag" wfd-id="676"><span class="token punctuation" wfd-id="677">&lt;/</span>dependency</span><span class="token punctuation" wfd-id="675">&gt;</span></span>
+</code></pre>
+<p>Want to create a new Spring Boot project from scratch? Just use <a href="https://start.spring.io/" title="Open in new window" target="_blank" rel="noopener noreferrer" class="outbound-link">Spring Initializr</a> web tool to bootstrap a new application with the above dependencies.</p>
+<h2 id="configure-mysql-database" class="anchor-heading">Configure MySQL Database<a class="anchor-link" href="#configure-mysql-database" aria-label="Configure MySQL Database" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>Spring Boot auto-configures the <code>DataSource</code> bean for in-memory databases like <a href="https://attacomsian.com/blog/spring-data-jpa-h2-database#configure-h2-database">H2 database</a>,
+ HSQLDB, and Apache Derby. Since we are using MySQL, we need to 
+explicitly define the database connection properties in a properties 
+file.</p>
+<p>Open the <code>application.properties</code> file in your favorite editor and add the following properties:</p>
+<pre class=" language-properties"><code class=" language-properties"><span class="token comment" wfd-id="673"># MySQL connection properties</span>
+<span class="token attr-name" wfd-id="672">spring.datasource.driver-class-name</span><span class="token punctuation" wfd-id="671">=</span><span class="token attr-value" wfd-id="670">com.mysql.cj.jdbc.Driver</span>
+<span class="token attr-name" wfd-id="669">spring.datasource.username</span><span class="token punctuation" wfd-id="668">=</span><span class="token attr-value" wfd-id="667">root</span>
+<span class="token attr-name" wfd-id="666">spring.datasource.password</span><span class="token punctuation" wfd-id="665">=</span><span class="token attr-value" wfd-id="664">mypass</span>
+<span class="token attr-name" wfd-id="663">spring.datasource.url</span><span class="token punctuation" wfd-id="662">=</span><span class="token attr-value" wfd-id="661">jdbc:mysql://localhost:3306/testdb?createDatabaseIfNotExist=true&amp;useSSL=false</span>
+
+<span class="token comment" wfd-id="660"># Log JPA queries</span>
+<span class="token comment" wfd-id="659"># Comment this in production</span>
+<span class="token attr-name" wfd-id="658">spring.jpa.show-sql</span><span class="token punctuation" wfd-id="657">=</span><span class="token attr-value" wfd-id="656">true</span>
+
+<span class="token comment" wfd-id="655"># Drop and create new tables (create, create-drop, validate, update)</span>
+<span class="token comment" wfd-id="654"># Only for testing purpose - comment this in production</span>
+<span class="token attr-name" wfd-id="653">spring.jpa.hibernate.ddl-auto</span><span class="token punctuation" wfd-id="652">=</span><span class="token attr-value" wfd-id="651">create</span>
+
+<span class="token comment" wfd-id="650"># Hibernate SQL dialect</span>
+<span class="token attr-name" wfd-id="649">spring.jpa.properties.hibernate.dialect</span><span class="token punctuation" wfd-id="648">=</span><span class="token attr-value" wfd-id="647">org.hibernate.dialect.MySQL5InnoDBDialect</span>
+</code></pre>
+<p>Spring Boot will automatically configure a <code>DataSource</code> bean after reading the above properties. Don't forget to change the <code>spring.datasource.username</code> and <code>spring.datasource.password</code> properties to match your MySQL database installation.</p>
+<p>The hibernate property <code>spring.jpa.hibernate.ddl-auto = create</code> will automatically create database tables based on the entity classes in your application on application startup.</p>
+<p>The <code>createDatabaseIfNotExist=true</code> configuration property, we have included in <code>spring.datasource.url</code>, makes sure that the database schema is automatically created if it doesn't already exist.</p>
+<h2 id="one-to-many-relationship" class="anchor-heading">One-To-Many Relationship<a class="anchor-link" href="#one-to-many-relationship" aria-label="One-To-Many Relationship" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>A one-to-many relationship refers to the relationship between two entities/tables A and B in which <strong>one element/row of A may only be linked to many elements/rows of B, but a member of B is linked to only one element/row of A</strong>.</p>
+<p>For instance, think of A as a book, and B as pages. A book can have 
+many pages but a page can only exist in one book, forming a one-to-many 
+relationship. The <strong>opposite of one-to-many is many-to-one</strong> relationship.</p>
+<p>Let us model the above relationship in the database by creating two 
+tables, one for the books and another for the pages, as shown below in 
+an Entity-Relationship (ER) diagram:</p>
+<p><img src="Spring%20Data%20JPA%20One%20To%20Many%20Relationship%20Mapping%20Example_files/9fdb10ba-4e40-42f5-9c56-e9bbac4f863c.png" alt="Spring Data JPA One To Many Mapping" loading="lazy" data-action="zoom"></p>
+<p>The one-to-many relationship is defined by the foreign key <code>book_id</code> in the <code>pages</code> table.</p>
+<h2 id="create-entities" class="anchor-heading">Create Entities<a class="anchor-link" href="#create-entities" aria-label="Create Entities" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>The next step is to create the <code>Book</code> and <code>Page</code> entities and define the one-to-many relationship mapping, as shown below:</p>
+<p class="file-desc"><span wfd-id="646">Book.java</span></p>
+<pre class=" language-java"><code class=" language-java"><span class="token keyword" wfd-id="645">package</span> <span class="token namespace" wfd-id="640">com<span class="token punctuation" wfd-id="644">.</span>attacomsian<span class="token punctuation" wfd-id="643">.</span>jpa<span class="token punctuation" wfd-id="642">.</span>one2many<span class="token punctuation" wfd-id="641">.</span>domains</span><span class="token punctuation" wfd-id="639">;</span>
+
+<span class="token keyword" wfd-id="638">import</span> <span class="token namespace" wfd-id="636">javax<span class="token punctuation" wfd-id="637">.</span>persistence</span><span class="token punctuation" wfd-id="635">.</span>*<span class="token punctuation" wfd-id="634">;</span>
+<span class="token keyword" wfd-id="633">import</span> <span class="token namespace" wfd-id="631">java<span class="token punctuation" wfd-id="632">.</span>io</span><span class="token punctuation" wfd-id="630">.</span><span class="token class-name" wfd-id="629">Serializable</span><span class="token punctuation" wfd-id="628">;</span>
+<span class="token keyword" wfd-id="627">import</span> <span class="token namespace" wfd-id="625">java<span class="token punctuation" wfd-id="626">.</span>util</span><span class="token punctuation" wfd-id="624">.</span><span class="token class-name" wfd-id="623">Set</span><span class="token punctuation" wfd-id="622">;</span>
+
+<span class="token annotation punctuation" wfd-id="621">@Entity</span>
+<span class="token annotation punctuation" wfd-id="620">@Table</span><span class="token punctuation" wfd-id="619">(</span>name <span class="token operator" wfd-id="618">=</span> <span class="token string" wfd-id="617">"books"</span><span class="token punctuation" wfd-id="616">)</span>
+<span class="token keyword" wfd-id="615">public</span> <span class="token keyword" wfd-id="614">class</span> <span class="token class-name" wfd-id="613">Book</span> <span class="token keyword" wfd-id="612">implements</span> <span class="token class-name" wfd-id="611">Serializable</span> <span class="token punctuation" wfd-id="610">{</span>
+
+    <span class="token annotation punctuation" wfd-id="609">@Id</span>
+    <span class="token annotation punctuation" wfd-id="608">@GeneratedValue</span><span class="token punctuation" wfd-id="607">(</span>strategy <span class="token operator" wfd-id="606">=</span> <span class="token class-name" wfd-id="605">GenerationType</span><span class="token punctuation" wfd-id="604">.</span>IDENTITY<span class="token punctuation" wfd-id="603">)</span>
+    <span class="token keyword" wfd-id="602">private</span> <span class="token class-name" wfd-id="601">Long</span> id<span class="token punctuation" wfd-id="600">;</span>
+
+    <span class="token keyword" wfd-id="599">private</span> <span class="token class-name" wfd-id="598">String</span> title<span class="token punctuation" wfd-id="597">;</span>
+    <span class="token keyword" wfd-id="596">private</span> <span class="token class-name" wfd-id="595">String</span> author<span class="token punctuation" wfd-id="594">;</span>
+    <span class="token annotation punctuation" wfd-id="593">@Column</span><span class="token punctuation" wfd-id="592">(</span>unique <span class="token operator" wfd-id="591">=</span> <span class="token boolean" wfd-id="590">true</span><span class="token punctuation" wfd-id="589">)</span>
+    <span class="token keyword" wfd-id="588">private</span> <span class="token class-name" wfd-id="587">String</span> isbn<span class="token punctuation" wfd-id="586">;</span>
+
+    <span class="token annotation punctuation" wfd-id="585">@OneToMany</span><span class="token punctuation" wfd-id="584">(</span>mappedBy <span class="token operator" wfd-id="583">=</span> <span class="token string" wfd-id="582">"book"</span><span class="token punctuation" wfd-id="581">,</span> fetch <span class="token operator" wfd-id="580">=</span> <span class="token class-name" wfd-id="579">FetchType</span><span class="token punctuation" wfd-id="578">.</span>LAZY<span class="token punctuation" wfd-id="577">,</span>
+            cascade <span class="token operator" wfd-id="576">=</span> <span class="token class-name" wfd-id="575">CascadeType</span><span class="token punctuation" wfd-id="574">.</span>ALL<span class="token punctuation" wfd-id="573">)</span>
+    <span class="token keyword" wfd-id="572">private</span> <span class="token class-name" wfd-id="571">Set</span><span class="token generics" wfd-id="567"><span class="token punctuation" wfd-id="570">&lt;</span><span class="token class-name" wfd-id="569">Page</span><span class="token punctuation" wfd-id="568">&gt;</span></span> pages<span class="token punctuation" wfd-id="566">;</span>
+
+    <span class="token keyword" wfd-id="565">public</span> <span class="token class-name" wfd-id="564">Book</span><span class="token punctuation" wfd-id="563">(</span><span class="token punctuation" wfd-id="562">)</span> <span class="token punctuation" wfd-id="561">{</span>
+    <span class="token punctuation" wfd-id="560">}</span>
+
+    <span class="token keyword" wfd-id="559">public</span> <span class="token class-name" wfd-id="558">Book</span><span class="token punctuation" wfd-id="557">(</span><span class="token class-name" wfd-id="556">String</span> title<span class="token punctuation" wfd-id="555">,</span> <span class="token class-name" wfd-id="554">String</span> author<span class="token punctuation" wfd-id="553">,</span> <span class="token class-name" wfd-id="552">String</span> isbn<span class="token punctuation" wfd-id="551">)</span> <span class="token punctuation" wfd-id="550">{</span>
+        <span class="token keyword" wfd-id="549">this</span><span class="token punctuation" wfd-id="548">.</span>title <span class="token operator" wfd-id="547">=</span> title<span class="token punctuation" wfd-id="546">;</span>
+        <span class="token keyword" wfd-id="545">this</span><span class="token punctuation" wfd-id="544">.</span>author <span class="token operator" wfd-id="543">=</span> author<span class="token punctuation" wfd-id="542">;</span>
+        <span class="token keyword" wfd-id="541">this</span><span class="token punctuation" wfd-id="540">.</span>isbn <span class="token operator" wfd-id="539">=</span> isbn<span class="token punctuation" wfd-id="538">;</span>
+    <span class="token punctuation" wfd-id="537">}</span>
+
+    <span class="token comment" wfd-id="536">// getters and setters, equals(), toString() .... (omitted for brevity)</span>
+<span class="token punctuation" wfd-id="535">}</span>
+</code></pre>
+<p class="file-desc"><span wfd-id="534">Page.java</span></p>
+<pre class=" language-java"><code class=" language-java"><span class="token keyword" wfd-id="533">package</span> <span class="token namespace" wfd-id="528">com<span class="token punctuation" wfd-id="532">.</span>attacomsian<span class="token punctuation" wfd-id="531">.</span>jpa<span class="token punctuation" wfd-id="530">.</span>one2many<span class="token punctuation" wfd-id="529">.</span>domains</span><span class="token punctuation" wfd-id="527">;</span>
+
+<span class="token keyword" wfd-id="526">import</span> <span class="token namespace" wfd-id="524">javax<span class="token punctuation" wfd-id="525">.</span>persistence</span><span class="token punctuation" wfd-id="523">.</span>*<span class="token punctuation" wfd-id="522">;</span>
+<span class="token keyword" wfd-id="521">import</span> <span class="token namespace" wfd-id="519">java<span class="token punctuation" wfd-id="520">.</span>io</span><span class="token punctuation" wfd-id="518">.</span><span class="token class-name" wfd-id="517">Serializable</span><span class="token punctuation" wfd-id="516">;</span>
+
+<span class="token annotation punctuation" wfd-id="515">@Entity</span>
+<span class="token annotation punctuation" wfd-id="514">@Table</span><span class="token punctuation" wfd-id="513">(</span>name <span class="token operator" wfd-id="512">=</span> <span class="token string" wfd-id="511">"pages"</span><span class="token punctuation" wfd-id="510">)</span>
+<span class="token keyword" wfd-id="509">public</span> <span class="token keyword" wfd-id="508">class</span> <span class="token class-name" wfd-id="507">Page</span> <span class="token keyword" wfd-id="506">implements</span> <span class="token class-name" wfd-id="505">Serializable</span> <span class="token punctuation" wfd-id="504">{</span>
+
+    <span class="token annotation punctuation" wfd-id="503">@Id</span>
+    <span class="token annotation punctuation" wfd-id="502">@GeneratedValue</span><span class="token punctuation" wfd-id="501">(</span>strategy <span class="token operator" wfd-id="500">=</span> <span class="token class-name" wfd-id="499">GenerationType</span><span class="token punctuation" wfd-id="498">.</span>IDENTITY<span class="token punctuation" wfd-id="497">)</span>
+    <span class="token keyword" wfd-id="496">private</span> <span class="token class-name" wfd-id="495">Long</span> id<span class="token punctuation" wfd-id="494">;</span>
+
+    <span class="token keyword" wfd-id="493">private</span> <span class="token keyword" wfd-id="492">int</span> number<span class="token punctuation" wfd-id="491">;</span>
+    <span class="token keyword" wfd-id="490">private</span> <span class="token class-name" wfd-id="489">String</span> content<span class="token punctuation" wfd-id="488">;</span>
+    <span class="token keyword" wfd-id="487">private</span> <span class="token class-name" wfd-id="486">String</span> chapter<span class="token punctuation" wfd-id="485">;</span>
+
+    <span class="token annotation punctuation" wfd-id="484">@ManyToOne</span><span class="token punctuation" wfd-id="483">(</span>fetch <span class="token operator" wfd-id="482">=</span> <span class="token class-name" wfd-id="481">FetchType</span><span class="token punctuation" wfd-id="480">.</span>LAZY<span class="token punctuation" wfd-id="479">,</span> optional <span class="token operator" wfd-id="478">=</span> <span class="token boolean" wfd-id="477">false</span><span class="token punctuation" wfd-id="476">)</span>
+    <span class="token annotation punctuation" wfd-id="475">@JoinColumn</span><span class="token punctuation" wfd-id="474">(</span>name <span class="token operator" wfd-id="473">=</span> <span class="token string" wfd-id="472">"book_id"</span><span class="token punctuation" wfd-id="471">,</span> nullable <span class="token operator" wfd-id="470">=</span> <span class="token boolean" wfd-id="469">false</span><span class="token punctuation" wfd-id="468">)</span>
+    <span class="token keyword" wfd-id="467">private</span> <span class="token class-name" wfd-id="466">Book</span> book<span class="token punctuation" wfd-id="465">;</span>
+
+    <span class="token keyword" wfd-id="464">public</span> <span class="token class-name" wfd-id="463">Page</span><span class="token punctuation" wfd-id="462">(</span><span class="token punctuation" wfd-id="461">)</span> <span class="token punctuation" wfd-id="460">{</span>
+    <span class="token punctuation" wfd-id="459">}</span>
+
+    <span class="token keyword" wfd-id="458">public</span> <span class="token class-name" wfd-id="457">Page</span><span class="token punctuation" wfd-id="456">(</span><span class="token keyword" wfd-id="455">int</span> number<span class="token punctuation" wfd-id="454">,</span> <span class="token class-name" wfd-id="453">String</span> content<span class="token punctuation" wfd-id="452">,</span> <span class="token class-name" wfd-id="451">String</span> chapter<span class="token punctuation" wfd-id="450">,</span> <span class="token class-name" wfd-id="449">Book</span> book<span class="token punctuation" wfd-id="448">)</span> <span class="token punctuation" wfd-id="447">{</span>
+        <span class="token keyword" wfd-id="446">this</span><span class="token punctuation" wfd-id="445">.</span>number <span class="token operator" wfd-id="444">=</span> number<span class="token punctuation" wfd-id="443">;</span>
+        <span class="token keyword" wfd-id="442">this</span><span class="token punctuation" wfd-id="441">.</span>content <span class="token operator" wfd-id="440">=</span> content<span class="token punctuation" wfd-id="439">;</span>
+        <span class="token keyword" wfd-id="438">this</span><span class="token punctuation" wfd-id="437">.</span>chapter <span class="token operator" wfd-id="436">=</span> chapter<span class="token punctuation" wfd-id="435">;</span>
+        <span class="token keyword" wfd-id="434">this</span><span class="token punctuation" wfd-id="433">.</span>book <span class="token operator" wfd-id="432">=</span> book<span class="token punctuation" wfd-id="431">;</span>
+    <span class="token punctuation" wfd-id="430">}</span>
+
+    <span class="token comment" wfd-id="429">// getters and setters, equals(), toString() .... (omitted for brevity)</span>
+<span class="token punctuation" wfd-id="428">}</span>
+</code></pre>
+<p>Both <code>Book</code> and <code>Page</code> classes are annotated with the <code>Entity</code> annotation to indicate that they are JPA entities.</p>
+<p>The <code>@Table</code> annotation is used to specify the name of the database table that should be mapped to this entity.</p>
+<p>The <code>id</code> attributes are annotated with both <code>@Id</code> and <code>@GeneratedValue</code>
+ annotations. The former annotation indicates that they are the primary 
+keys of the entities. The latter annotation defines the primary key 
+generation strategy. In the above case, we have declared that the 
+primary key should be an <code>AUTO INCREMENT</code> field.</p>
+<h3 id="onetomany-annotation" class="anchor-heading"><code>@OneToMany</code> Annotation<a class="anchor-link" href="#onetomany-annotation" aria-label="@OneToMany Annotation" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h3>
+<p>A one-to-many relationship between two entities is defined by using the <code>@OneToMany</code> annotation in Spring Data JPA. It declares the <code>mappedBy</code>
+ element to indicate the entity that owns the bidirectional 
+relationship. Usually, the child entity is one that owns the 
+relationship and the parent entity contains the <code>@OneToMany</code> annotation.</p>
+<h3 id="manytoone-annotation" class="anchor-heading"><code>@ManyToOne</code> Annotation<a class="anchor-link" href="#manytoone-annotation" aria-label="@ManyToOne Annotation" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h3>
+<p>The <code>@ManyToOne</code> annotation is used to define a 
+many-to-one relationship between two entities in Spring Data JPA. The 
+child entity, that has the join column, is called the owner of the 
+relationship defined using the <code>@ManyToOne</code> annotation.</p>
+<h3 id="joincolumn-annotation" class="anchor-heading"><code>@JoinColumn</code> Annotation<a class="anchor-link" href="#joincolumn-annotation" aria-label="@JoinColumn Annotation" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h3>
+<p>The <code>@JoinColumn</code> annotation is used to specify the 
+foreign key column in the owner of the relationship. The inverse-side of
+ the relationship sets the <code>mappedBy</code> attribute to indicate that the relationship is owned by the other entity.</p>
+<h2 id="create-repositories" class="anchor-heading">Create Repositories<a class="anchor-link" href="#create-repositories" aria-label="Create Repositories" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>Let us now define the repository interfaces to store and access the 
+data from the database. We'll be extending our repositories from Spring 
+Data JPA's <code>CrudRepository</code> interface that provides methods for generic CRUD operations.</p>
+<p class="file-desc"><span wfd-id="427">BookRepository.java</span></p>
+<pre class=" language-java"><code class=" language-java"><span class="token keyword" wfd-id="426">package</span> <span class="token namespace" wfd-id="421">com<span class="token punctuation" wfd-id="425">.</span>attacomsian<span class="token punctuation" wfd-id="424">.</span>jpa<span class="token punctuation" wfd-id="423">.</span>one2many<span class="token punctuation" wfd-id="422">.</span>repositories</span><span class="token punctuation" wfd-id="420">;</span>
+
+<span class="token keyword" wfd-id="419">import</span> <span class="token namespace" wfd-id="414">com<span class="token punctuation" wfd-id="418">.</span>attacomsian<span class="token punctuation" wfd-id="417">.</span>jpa<span class="token punctuation" wfd-id="416">.</span>one2many<span class="token punctuation" wfd-id="415">.</span>domains</span><span class="token punctuation" wfd-id="413">.</span><span class="token class-name" wfd-id="412">Book</span><span class="token punctuation" wfd-id="411">;</span>
+<span class="token keyword" wfd-id="410">import</span> <span class="token namespace" wfd-id="406">org<span class="token punctuation" wfd-id="409">.</span>springframework<span class="token punctuation" wfd-id="408">.</span>data<span class="token punctuation" wfd-id="407">.</span>repository</span><span class="token punctuation" wfd-id="405">.</span><span class="token class-name" wfd-id="404">CrudRepository</span><span class="token punctuation" wfd-id="403">;</span>
+
+<span class="token keyword" wfd-id="402">public</span> <span class="token keyword" wfd-id="401">interface</span> <span class="token class-name" wfd-id="400">BookRepository</span> <span class="token keyword" wfd-id="399">extends</span> <span class="token class-name" wfd-id="398">CrudRepository</span><span class="token generics" wfd-id="392"><span class="token punctuation" wfd-id="397">&lt;</span><span class="token class-name" wfd-id="396">Book</span><span class="token punctuation" wfd-id="395">,</span> <span class="token class-name" wfd-id="394">Long</span><span class="token punctuation" wfd-id="393">&gt;</span></span> <span class="token punctuation" wfd-id="391">{</span>
+
+    <span class="token class-name" wfd-id="390">Book</span> <span class="token function" wfd-id="389">findByIsbn</span><span class="token punctuation" wfd-id="388">(</span><span class="token class-name" wfd-id="387">String</span> isbn<span class="token punctuation" wfd-id="386">)</span><span class="token punctuation" wfd-id="385">;</span>
+<span class="token punctuation" wfd-id="384">}</span>
+</code></pre>
+<p class="file-desc"><span wfd-id="383">PageRepository.java</span></p>
+<pre class=" language-java"><code class=" language-java"><span class="token keyword" wfd-id="382">package</span> <span class="token namespace" wfd-id="377">com<span class="token punctuation" wfd-id="381">.</span>attacomsian<span class="token punctuation" wfd-id="380">.</span>jpa<span class="token punctuation" wfd-id="379">.</span>one2many<span class="token punctuation" wfd-id="378">.</span>repositories</span><span class="token punctuation" wfd-id="376">;</span>
+
+<span class="token keyword" wfd-id="375">import</span> <span class="token namespace" wfd-id="370">com<span class="token punctuation" wfd-id="374">.</span>attacomsian<span class="token punctuation" wfd-id="373">.</span>jpa<span class="token punctuation" wfd-id="372">.</span>one2many<span class="token punctuation" wfd-id="371">.</span>domains</span><span class="token punctuation" wfd-id="369">.</span><span class="token class-name" wfd-id="368">Book</span><span class="token punctuation" wfd-id="367">;</span>
+<span class="token keyword" wfd-id="366">import</span> <span class="token namespace" wfd-id="361">com<span class="token punctuation" wfd-id="365">.</span>attacomsian<span class="token punctuation" wfd-id="364">.</span>jpa<span class="token punctuation" wfd-id="363">.</span>one2many<span class="token punctuation" wfd-id="362">.</span>domains</span><span class="token punctuation" wfd-id="360">.</span><span class="token class-name" wfd-id="359">Page</span><span class="token punctuation" wfd-id="358">;</span>
+<span class="token keyword" wfd-id="357">import</span> <span class="token namespace" wfd-id="353">org<span class="token punctuation" wfd-id="356">.</span>springframework<span class="token punctuation" wfd-id="355">.</span>data<span class="token punctuation" wfd-id="354">.</span>domain</span><span class="token punctuation" wfd-id="352">.</span><span class="token class-name" wfd-id="351">Sort</span><span class="token punctuation" wfd-id="350">;</span>
+<span class="token keyword" wfd-id="349">import</span> <span class="token namespace" wfd-id="345">org<span class="token punctuation" wfd-id="348">.</span>springframework<span class="token punctuation" wfd-id="347">.</span>data<span class="token punctuation" wfd-id="346">.</span>repository</span><span class="token punctuation" wfd-id="344">.</span><span class="token class-name" wfd-id="343">CrudRepository</span><span class="token punctuation" wfd-id="342">;</span>
+
+<span class="token keyword" wfd-id="341">import</span> <span class="token namespace" wfd-id="339">java<span class="token punctuation" wfd-id="340">.</span>util</span><span class="token punctuation" wfd-id="338">.</span><span class="token class-name" wfd-id="337">List</span><span class="token punctuation" wfd-id="336">;</span>
+
+<span class="token keyword" wfd-id="335">public</span> <span class="token keyword" wfd-id="334">interface</span> <span class="token class-name" wfd-id="333">PageRepository</span> <span class="token keyword" wfd-id="332">extends</span> <span class="token class-name" wfd-id="331">CrudRepository</span><span class="token generics" wfd-id="325"><span class="token punctuation" wfd-id="330">&lt;</span><span class="token class-name" wfd-id="329">Page</span><span class="token punctuation" wfd-id="328">,</span> <span class="token class-name" wfd-id="327">Long</span><span class="token punctuation" wfd-id="326">&gt;</span></span> <span class="token punctuation" wfd-id="324">{</span>
+
+    <span class="token class-name" wfd-id="323">List</span><span class="token generics" wfd-id="319"><span class="token punctuation" wfd-id="322">&lt;</span><span class="token class-name" wfd-id="321">Page</span><span class="token punctuation" wfd-id="320">&gt;</span></span> <span class="token function" wfd-id="318">findByBook</span><span class="token punctuation" wfd-id="317">(</span><span class="token class-name" wfd-id="316">Book</span> book<span class="token punctuation" wfd-id="315">,</span> <span class="token class-name" wfd-id="314">Sort</span> sort<span class="token punctuation" wfd-id="313">)</span><span class="token punctuation" wfd-id="312">;</span>
+<span class="token punctuation" wfd-id="311">}</span>
+</code></pre>
+<p>In the above repositories, we also defined some <a href="https://attacomsian.com/blog/derived-query-methods-spring-data-jpa">derived query methods</a> like <code>findByIsbn()</code> to fetch a book by its ISBN number.</p>
+<p>That's it. You have successfully defined a one-to-many relationship 
+mapping in Spring Data JPA. You don't need to implement the above 
+interfaces thanks to Spring Data JPA.</p>
+<h2 id="create-an-application-class" class="anchor-heading">Create an Application Class<a class="anchor-link" href="#create-an-application-class" aria-label="Create an Application Class" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>Let us now create the main application class for the Spring Boot <a href="https://attacomsian.com/blog/spring-boot-console-application">console application</a> to test our one-to-many relationship mapping:</p>
+<p class="file-desc"><span wfd-id="310">Application.java</span></p>
+<pre class=" language-java"><code class=" language-java"><span class="token keyword" wfd-id="309">package</span> <span class="token namespace" wfd-id="306">com<span class="token punctuation" wfd-id="308">.</span>attacomsian<span class="token punctuation" wfd-id="307">.</span>jpa</span><span class="token punctuation" wfd-id="305">;</span>
+
+<span class="token keyword" wfd-id="304">import</span> <span class="token namespace" wfd-id="299">com<span class="token punctuation" wfd-id="303">.</span>attacomsian<span class="token punctuation" wfd-id="302">.</span>jpa<span class="token punctuation" wfd-id="301">.</span>one2many<span class="token punctuation" wfd-id="300">.</span>domains</span><span class="token punctuation" wfd-id="298">.</span><span class="token class-name" wfd-id="297">Book</span><span class="token punctuation" wfd-id="296">;</span>
+<span class="token keyword" wfd-id="295">import</span> <span class="token namespace" wfd-id="290">com<span class="token punctuation" wfd-id="294">.</span>attacomsian<span class="token punctuation" wfd-id="293">.</span>jpa<span class="token punctuation" wfd-id="292">.</span>one2many<span class="token punctuation" wfd-id="291">.</span>domains</span><span class="token punctuation" wfd-id="289">.</span><span class="token class-name" wfd-id="288">Page</span><span class="token punctuation" wfd-id="287">;</span>
+<span class="token keyword" wfd-id="286">import</span> <span class="token namespace" wfd-id="281">com<span class="token punctuation" wfd-id="285">.</span>attacomsian<span class="token punctuation" wfd-id="284">.</span>jpa<span class="token punctuation" wfd-id="283">.</span>one2many<span class="token punctuation" wfd-id="282">.</span>repositories</span><span class="token punctuation" wfd-id="280">.</span><span class="token class-name" wfd-id="279">BookRepository</span><span class="token punctuation" wfd-id="278">;</span>
+<span class="token keyword" wfd-id="277">import</span> <span class="token namespace" wfd-id="272">com<span class="token punctuation" wfd-id="276">.</span>attacomsian<span class="token punctuation" wfd-id="275">.</span>jpa<span class="token punctuation" wfd-id="274">.</span>one2many<span class="token punctuation" wfd-id="273">.</span>repositories</span><span class="token punctuation" wfd-id="271">.</span><span class="token class-name" wfd-id="270">PageRepository</span><span class="token punctuation" wfd-id="269">;</span>
+<span class="token keyword" wfd-id="268">import</span> <span class="token namespace" wfd-id="263">com<span class="token punctuation" wfd-id="267">.</span>attacomsian<span class="token punctuation" wfd-id="266">.</span>jpa<span class="token punctuation" wfd-id="265">.</span>one2one<span class="token punctuation" wfd-id="264">.</span>domains</span><span class="token punctuation" wfd-id="262">.</span><span class="token class-name" wfd-id="261">Address</span><span class="token punctuation" wfd-id="260">;</span>
+<span class="token keyword" wfd-id="259">import</span> <span class="token namespace" wfd-id="254">com<span class="token punctuation" wfd-id="258">.</span>attacomsian<span class="token punctuation" wfd-id="257">.</span>jpa<span class="token punctuation" wfd-id="256">.</span>one2one<span class="token punctuation" wfd-id="255">.</span>domains</span><span class="token punctuation" wfd-id="253">.</span><span class="token class-name" wfd-id="252">User</span><span class="token punctuation" wfd-id="251">;</span>
+<span class="token keyword" wfd-id="250">import</span> <span class="token namespace" wfd-id="245">com<span class="token punctuation" wfd-id="249">.</span>attacomsian<span class="token punctuation" wfd-id="248">.</span>jpa<span class="token punctuation" wfd-id="247">.</span>one2one<span class="token punctuation" wfd-id="246">.</span>repositories</span><span class="token punctuation" wfd-id="244">.</span><span class="token class-name" wfd-id="243">AddressRepository</span><span class="token punctuation" wfd-id="242">;</span>
+<span class="token keyword" wfd-id="241">import</span> <span class="token namespace" wfd-id="236">com<span class="token punctuation" wfd-id="240">.</span>attacomsian<span class="token punctuation" wfd-id="239">.</span>jpa<span class="token punctuation" wfd-id="238">.</span>one2one<span class="token punctuation" wfd-id="237">.</span>repositories</span><span class="token punctuation" wfd-id="235">.</span><span class="token class-name" wfd-id="234">UserRepository</span><span class="token punctuation" wfd-id="233">;</span>
+<span class="token keyword" wfd-id="232">import</span> <span class="token namespace" wfd-id="229">org<span class="token punctuation" wfd-id="231">.</span>springframework<span class="token punctuation" wfd-id="230">.</span>boot</span><span class="token punctuation" wfd-id="228">.</span><span class="token class-name" wfd-id="227">CommandLineRunner</span><span class="token punctuation" wfd-id="226">;</span>
+<span class="token keyword" wfd-id="225">import</span> <span class="token namespace" wfd-id="222">org<span class="token punctuation" wfd-id="224">.</span>springframework<span class="token punctuation" wfd-id="223">.</span>boot</span><span class="token punctuation" wfd-id="221">.</span><span class="token class-name" wfd-id="220">SpringApplication</span><span class="token punctuation" wfd-id="219">;</span>
+<span class="token keyword" wfd-id="218">import</span> <span class="token namespace" wfd-id="214">org<span class="token punctuation" wfd-id="217">.</span>springframework<span class="token punctuation" wfd-id="216">.</span>boot<span class="token punctuation" wfd-id="215">.</span>autoconfigure</span><span class="token punctuation" wfd-id="213">.</span><span class="token class-name" wfd-id="212">SpringBootApplication</span><span class="token punctuation" wfd-id="211">;</span>
+<span class="token keyword" wfd-id="210">import</span> <span class="token namespace" wfd-id="206">org<span class="token punctuation" wfd-id="209">.</span>springframework<span class="token punctuation" wfd-id="208">.</span>context<span class="token punctuation" wfd-id="207">.</span>annotation</span><span class="token punctuation" wfd-id="205">.</span><span class="token class-name" wfd-id="204">Bean</span><span class="token punctuation" wfd-id="203">;</span>
+
+<span class="token annotation punctuation" wfd-id="202">@SpringBootApplication</span>
+<span class="token keyword" wfd-id="201">public</span> <span class="token keyword" wfd-id="200">class</span> <span class="token class-name" wfd-id="199">Application</span> <span class="token punctuation" wfd-id="198">{</span>
+
+    <span class="token keyword" wfd-id="197">public</span> <span class="token keyword" wfd-id="196">static</span> <span class="token keyword" wfd-id="195">void</span> <span class="token function" wfd-id="194">main</span><span class="token punctuation" wfd-id="193">(</span><span class="token class-name" wfd-id="192">String</span><span class="token punctuation" wfd-id="191">[</span><span class="token punctuation" wfd-id="190">]</span> args<span class="token punctuation" wfd-id="189">)</span> <span class="token punctuation" wfd-id="188">{</span>
+        <span class="token class-name" wfd-id="187">SpringApplication</span><span class="token punctuation" wfd-id="186">.</span><span class="token function" wfd-id="185">run</span><span class="token punctuation" wfd-id="184">(</span><span class="token class-name" wfd-id="183">Application</span><span class="token punctuation" wfd-id="182">.</span><span class="token keyword" wfd-id="181">class</span><span class="token punctuation" wfd-id="180">,</span> args<span class="token punctuation" wfd-id="179">)</span><span class="token punctuation" wfd-id="178">;</span>
+    <span class="token punctuation" wfd-id="177">}</span>
+
+    <span class="token annotation punctuation" wfd-id="176">@Bean</span>
+    <span class="token keyword" wfd-id="175">public</span> <span class="token class-name" wfd-id="174">CommandLineRunner</span> <span class="token function" wfd-id="173">mappingDemo</span><span class="token punctuation" wfd-id="172">(</span><span class="token class-name" wfd-id="171">BookRepository</span> bookRepository<span class="token punctuation" wfd-id="170">,</span>
+                                         <span class="token class-name" wfd-id="169">PageRepository</span> pageRepository<span class="token punctuation" wfd-id="168">)</span> <span class="token punctuation" wfd-id="167">{</span>
+        <span class="token keyword" wfd-id="166">return</span> args <span class="token operator" wfd-id="165">-&gt;</span> <span class="token punctuation" wfd-id="164">{</span>
+
+            <span class="token comment" wfd-id="163">// create a new book</span>
+            <span class="token class-name" wfd-id="162">Book</span> book <span class="token operator" wfd-id="161">=</span> <span class="token keyword" wfd-id="160">new</span> <span class="token class-name" wfd-id="159">Book</span><span class="token punctuation" wfd-id="158">(</span><span class="token string" wfd-id="157">"Java 101"</span><span class="token punctuation" wfd-id="156">,</span> <span class="token string" wfd-id="155">"John Doe"</span><span class="token punctuation" wfd-id="154">,</span> <span class="token string" wfd-id="153">"123456"</span><span class="token punctuation" wfd-id="152">)</span><span class="token punctuation" wfd-id="151">;</span>
+
+            <span class="token comment" wfd-id="150">// save the book</span>
+            bookRepository<span class="token punctuation" wfd-id="149">.</span><span class="token function" wfd-id="148">save</span><span class="token punctuation" wfd-id="147">(</span>book<span class="token punctuation" wfd-id="146">)</span><span class="token punctuation" wfd-id="145">;</span>
+
+            <span class="token comment" wfd-id="144">// create and save new pages</span>
+            pageRepository<span class="token punctuation" wfd-id="143">.</span><span class="token function" wfd-id="142">save</span><span class="token punctuation" wfd-id="141">(</span><span class="token keyword" wfd-id="140">new</span> <span class="token class-name" wfd-id="139">Page</span><span class="token punctuation" wfd-id="138">(</span><span class="token number" wfd-id="137">1</span><span class="token punctuation" wfd-id="136">,</span> <span class="token string" wfd-id="135">"Introduction contents"</span><span class="token punctuation" wfd-id="134">,</span> <span class="token string" wfd-id="133">"Introduction"</span><span class="token punctuation" wfd-id="132">,</span> book<span class="token punctuation" wfd-id="131">)</span><span class="token punctuation" wfd-id="130">)</span><span class="token punctuation" wfd-id="129">;</span>
+            pageRepository<span class="token punctuation" wfd-id="128">.</span><span class="token function" wfd-id="127">save</span><span class="token punctuation" wfd-id="126">(</span><span class="token keyword" wfd-id="125">new</span> <span class="token class-name" wfd-id="124">Page</span><span class="token punctuation" wfd-id="123">(</span><span class="token number" wfd-id="122">65</span><span class="token punctuation" wfd-id="121">,</span> <span class="token string" wfd-id="120">"Java 8 contents"</span><span class="token punctuation" wfd-id="119">,</span> <span class="token string" wfd-id="118">"Java 8"</span><span class="token punctuation" wfd-id="117">,</span> book<span class="token punctuation" wfd-id="116">)</span><span class="token punctuation" wfd-id="115">)</span><span class="token punctuation" wfd-id="114">;</span>
+            pageRepository<span class="token punctuation" wfd-id="113">.</span><span class="token function" wfd-id="112">save</span><span class="token punctuation" wfd-id="111">(</span><span class="token keyword" wfd-id="110">new</span> <span class="token class-name" wfd-id="109">Page</span><span class="token punctuation" wfd-id="108">(</span><span class="token number" wfd-id="107">95</span><span class="token punctuation" wfd-id="106">,</span> <span class="token string" wfd-id="105">"Concurrency contents"</span><span class="token punctuation" wfd-id="104">,</span> <span class="token string" wfd-id="103">"Concurrency"</span><span class="token punctuation" wfd-id="102">,</span> book<span class="token punctuation" wfd-id="101">)</span><span class="token punctuation" wfd-id="100">)</span><span class="token punctuation" wfd-id="99">;</span>
+        <span class="token punctuation" wfd-id="98">}</span><span class="token punctuation" wfd-id="97">;</span>
+    <span class="token punctuation" wfd-id="96">}</span>
+<span class="token punctuation" wfd-id="95">}</span>
+</code></pre>
+<h2 id="run-the-application" class="anchor-heading">Run the Application<a class="anchor-link" href="#run-the-application" aria-label="Run the Application" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>Next, run the application to see the output.  If you are using Gradle, execute the following command to start the application:</p>
+<pre class=" language-bash"><code class=" language-bash">$ ./gradlew bootRun
+</code></pre>
+<p>For Maven, type the following command to launch the application:</p>
+<pre class=" language-bash"><code class=" language-bash">$ ./mvnw spring-boot:run
+</code></pre>
+<p>Once the application is started, you should see the following lines printed on the console:</p>
+<pre class=" language-bash"><code class=" language-bash">Hibernate: drop table <span class="token keyword" wfd-id="94">if</span> exists books
+Hibernate: drop table <span class="token keyword" wfd-id="93">if</span> exists pages
+Hibernate: create table books <span class="token punctuation" wfd-id="92">(</span>id bigint not null auto_increment, author varchar<span class="token punctuation" wfd-id="91">(</span><span class="token number" wfd-id="90">255</span><span class="token punctuation" wfd-id="89">)</span>, isbn varchar<span class="token punctuation" wfd-id="88">(</span><span class="token number" wfd-id="87">255</span><span class="token punctuation" wfd-id="86">)</span>, title varchar<span class="token punctuation" wfd-id="85">(</span><span class="token number" wfd-id="84">255</span><span class="token punctuation" wfd-id="83">)</span>, primary key <span class="token punctuation" wfd-id="82">(</span>id<span class="token punctuation" wfd-id="81">))</span> <span class="token assign-left variable" wfd-id="80">engine</span><span class="token operator" wfd-id="79">=</span>InnoDB
+Hibernate: create table pages <span class="token punctuation" wfd-id="78">(</span>id bigint not null auto_increment, chapter varchar<span class="token punctuation" wfd-id="77">(</span><span class="token number" wfd-id="76">255</span><span class="token punctuation" wfd-id="75">)</span>, content varchar<span class="token punctuation" wfd-id="74">(</span><span class="token number" wfd-id="73">255</span><span class="token punctuation" wfd-id="72">)</span>, number integer not null, book_id bigint not null, primary key <span class="token punctuation" wfd-id="71">(</span>id<span class="token punctuation" wfd-id="70">))</span> <span class="token assign-left variable" wfd-id="69">engine</span><span class="token operator" wfd-id="68">=</span>InnoDB
+Hibernate: insert into books <span class="token punctuation" wfd-id="67">(</span>author, isbn, title<span class="token punctuation" wfd-id="66">)</span> values <span class="token punctuation" wfd-id="65">(</span>?, ?, ?<span class="token punctuation" wfd-id="64">)</span>
+Hibernate: insert into pages <span class="token punctuation" wfd-id="63">(</span>book_id, chapter, content, number<span class="token punctuation" wfd-id="62">)</span> values <span class="token punctuation" wfd-id="61">(</span>?, ?, ?, ?<span class="token punctuation" wfd-id="60">)</span>
+Hibernate: insert into pages <span class="token punctuation" wfd-id="59">(</span>book_id, chapter, content, number<span class="token punctuation" wfd-id="58">)</span> values <span class="token punctuation" wfd-id="57">(</span>?, ?, ?, ?<span class="token punctuation" wfd-id="56">)</span>
+Hibernate: insert into pages <span class="token punctuation" wfd-id="55">(</span>book_id, chapter, content, number<span class="token punctuation" wfd-id="54">)</span> values <span class="token punctuation" wfd-id="53">(</span>?, ?, ?, ?<span class="token punctuation" wfd-id="52">)</span>
+<span class="token punctuation" wfd-id="51">..</span>.
+</code></pre>
+<blockquote>
+<p><strong>Source Code:</strong> Download the complete source code from <a href="https://github.com/attacomsian/code-examples/tree/master/spring-data-jpa/jpa-mappings" title="Open in new window" target="_blank" rel="noopener noreferrer" class="outbound-link">GitHub</a> available under MIT license.</p>
+</blockquote>
+<h2 id="conclusion" class="anchor-heading">Conclusion<a class="anchor-link" href="#conclusion" aria-label="Conclusion" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>That's all folks. In this article, you've learned how to map and use a
+ one-to-many relationship in Spring Data JPA and Hibernate.</p>
+<p>Don't forget to join the <a href="https://attacomsian.com/newsletter">mailing list</a> if you want to be the first to know when new tutorials are available.</p>
+<h2 id="further-reading" class="anchor-heading">Further Reading<a class="anchor-link" href="#further-reading" aria-label="Further Reading" title="Anchor Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></a></h2>
+<p>To learn about Spring Data JPA, check out the following articles:</p>
+<ul wfd-id="40">
+<li wfd-id="50"><a href="https://attacomsian.com/blog/getting-started-spring-data-jpa">Getting Started with Spring Data JPA</a></li>
+<li wfd-id="49"><a href="https://attacomsian.com/blog/spring-data-jpa-h2-database">Spring Data JPA with H2 DataBase and Spring Boot</a></li>
+<li wfd-id="48"><a href="https://attacomsian.com/blog/accessing-data-spring-data-jpa-mysql">Accessing Data with Spring Data JPA and MySQL</a></li>
+<li wfd-id="47"><a href="https://attacomsian.com/blog/derived-query-methods-spring-data-jpa">Derived Query Methods in Spring Data JPA</a></li>
+<li wfd-id="46"><a href="https://attacomsian.com/blog/spring-data-jpa-query-annotation">Spring Data JPA Custom Queries using @Query Annotation</a></li>
+<li wfd-id="45"><a href="https://attacomsian.com/blog/spring-data-jpa-named-queries">How to Use Spring Data JPA Named Queries</a></li>
+<li wfd-id="44"><a href="https://attacomsian.com/blog/spring-data-jpa-sorting">Sorting Query Results in Spring Data JPA</a></li>
+<li wfd-id="43"><a href="https://attacomsian.com/blog/spring-data-jpa-pagination">Pagination with Spring Data JPA</a></li>
+<li wfd-id="42"><a href="https://attacomsian.com/blog/spring-data-jpa-one-to-one-mapping">Spring Data JPA One To One Relationship Mapping Example</a></li>
+<li wfd-id="41"><a href="https://attacomsian.com/blog/spring-data-jpa-many-to-many-mapping">Spring Data JPA Many To Many Relationship Mapping Example</a></li>
+</ul>
+
+                        <p>
+                            <strong>✌️ Like this article?</strong>
+                            <a href="https://twitter.com/attacomsian" target="_blank" rel="noopener nofollow">Follow
+                                @attacomsian on Twitter</a>. You can also follow me on
+                            <a href="https://linkedin.com/in/attacomsian" rel="nofollow noopener">LinkedIn</a> and
+                            <a href="https://dev.to/attacomsian" target="_blank" rel="noopener nofollow">DEV</a>.
+                            <mark><em>☕ <a href="https://buymeacoffee.com/attacomsian" target="_blank" rel="noopener nofollow">Buy me a coffee</a> (cost $3)
+                            </em></mark>
+                        </p>
+                        <blockquote>
+                            <strong>Need help to start a new Spring Boot or MEAN stack project?</strong> I am
+                            available for contract work. Hire me to accomplish your business goals with engineering
+                            and design. Let’s talk about your project:
+                            <a href="mailto:hi@attacomsian.com">hi@attacomsian.com</a>.
+                        </blockquote>
+                    </div>
+                    <div class="mt-5" wfd-id="35">
+                        <h3>Share it with your friends &amp; followers!</h3>
+                        <a class="btn btn-sm bg-twitter d-inline-flex flex-row align-items-center mr-2" href="https://twitter.com/intent/tweet?text=Spring+Data+JPA+One+To+Many+Relationship+Mapping+Example&amp;url=https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping&amp;via=attacomsian" target="_blank" rel="noopener nofollow">
+                            <span class="mr-2" wfd-id="38">
+                                
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter">
+        
+            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+                            </span>
+                            Tweet
+                        </a>
+                        <a class="btn btn-sm bg-facebook d-inline-flex flex-row align-items-center mr-2" href="https://www.facebook.com/sharer/sharer.php?u=https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping" target="_blank" rel="noopener nofollow">
+                            <span class="mr-2" wfd-id="37">
+                                
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook">
+        
+        
+        
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+                            </span>
+                            Share
+                        </a>
+                        <a class="btn btn-sm bg-linkedin d-inline-flex flex-row align-items-center mr-2" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://attacomsian.com/blog/spring-data-jpa-one-to-many-mapping" target="_blank" rel="noopener nofollow">
+                            <span class="mr-2" wfd-id="36">
+                                
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin">
+        
+        
+        
+        
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+                            </span>
+                            Share
+                        </a>
+                    </div>
+                    <div class="clearfix mt-5" wfd-id="27">
+                        <h3>You may also like ...</h3>
+                        <ul class="list-unstyled latest-posts" wfd-id="28">
+                            <li wfd-id="34">
+                                <a href="https://attacomsian.com/blog/java-get-unix-timestamp">How to get the UNIX timestamp in Java</a>
+                            </li>
+                            <li wfd-id="33">
+                                <a href="https://attacomsian.com/blog/java-get-current-timestamp">How to get current timestamp in Java</a>
+                            </li>
+                            <li wfd-id="32">
+                                <a href="https://attacomsian.com/blog/java-convert-string-to-date">How to convert a string to date in Java</a>
+                            </li>
+                            <li wfd-id="31">
+                                <a href="https://attacomsian.com/blog/java-get-current-date-time">How to get current date and time in Java</a>
+                            </li>
+                            <li wfd-id="30">
+                                <a href="https://attacomsian.com/blog/java-new-date-time-api">Introduction to Java 8 Date and Time API</a>
+                            </li>
+                            <li wfd-id="29">
+                                <a href="https://attacomsian.com/blog/java-convert-byte-array-to-string">How to Convert Byte[] array to a String in Java</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--newsletter-->
+    
+    <section class="fixed-bottom d-none d-md-flex bg-light" wfd-id="15">
+        <div class="container" wfd-id="16">
+            <div class="row" wfd-id="17">
+                <div class="col-12 py-3" wfd-id="18">
+                    <div class="row align-items-center" wfd-id="19">
+                        <div class="col-auto" wfd-id="22">
+                            <h5 class="font-weight-bold mb-0">🙌 Get new tutorials in your inbox</h5>
+                        </div>
+                        <div class="col" wfd-id="20">
+                            <div class="d-flex flex-row align-items-center" wfd-id="21">
+                                <input id="newsletter-email" name="email" type="email" class="form-control" placeholder="Enter your email address" required="" wfd-id="749">
+                                <button class="btn btn-soft-primary ml-2" id="subscribe-newsletter" type="button" wfd-id="750">Subscribe
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div></section>
+
+
+
+<footer class="mt-4 pb-5" id="contact">
+    <div class="container" wfd-id="1">
+        <div class="row" wfd-id="2">
+            <div class="col-md my-md-auto text-center text-md-left text-muted" wfd-id="9">
+                <div class="d-flex flex-md-row flex-column align-items-md-center" wfd-id="10">
+                    <p class="mb-md-0">
+                        ©
+                        2019
+                        Atta 🤟
+                    </p>
+                    <ul class="list-group list-group-horizontal list-group-borderless ml-md-3 justify-content-center" wfd-id="11">
+                        <li class="list-group-item" wfd-id="14">
+                            <a href="https://attacomsian.com/about" class="no-border">Me</a>
+                        </li>
+                        <li class="list-group-item" wfd-id="13">
+                            <a href="https://attacomsian.com/newsletter" class="no-border">Subscribe</a>
+                        </li>
+                        <li class="list-group-item" wfd-id="12">
+                            <a href="https://attacomsian.com/blog" class="no-border">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-auto mt-3 mt-md-0 text-center text-md-right" wfd-id="3">
+                
+    <ul class="list-inline social-icons mb-0" wfd-id="4">
+        <li class="list-inline-item" wfd-id="8">
+            <a class="d-flex flex-row align-items-center justify-content-center social-link" aria-label="Twitter" href="https://twitter.com/attacomsian" target="_blank" rel="noopener nofollow" title="Follow me on Twitter">
+                
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter">
+        
+            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+            </a>
+        </li>
+        <li class="list-inline-item" wfd-id="7">
+            <a class="d-flex flex-row align-items-center justify-content-center social-link" aria-label="GitHub" href="https://github.com/attacomsian" target="_blank" rel="noopener nofollow" title="Follow me on GitHub">
+                
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github">
+        
+        
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+            </a>
+        </li>
+        <li class="list-inline-item" wfd-id="6">
+            <a class="d-flex flex-row align-items-center justify-content-center social-link" aria-label="LinkedIn" href="https://www.linkedin.com/in/attacomsian" target="_blank" rel="noopener nofollow" title="Follow me on LinkedIn">
+                
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin">
+        
+        
+        
+        
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+            </a>
+        </li>
+        <li class="list-inline-item" wfd-id="5">
+            <a class="d-flex flex-row align-items-center justify-content-center social-link" aria-label="Email" href="mailto:hi@attacomsian.com" rel="noopener nofollow" target="_blank" title="Email Me">
+                
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
+        
+        
+        
+        
+        
+        
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+            </a>
+        </li>
+<!--        <li class="list-inline-item">-->
+<!--            <a class="d-flex flex-row align-items-center justify-content-center social-link" aria-label="RSS Feed"-->
+<!--               th:href="@{/rss}" target="_blank" title="RSS Feed">-->
+<!--                <span th:replace="fragments/icons :: icons('rss', 20, 20)"></span>-->
+<!--            </a>-->
+<!--        </li>-->
+    </ul>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--scroll to top-->
+<div class="scroll-top d-flex flex-row align-items-center justify-content-center" wfd-id="0">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up">
+        
+        
+        
+        
+        
+        
+        
+        
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </svg>
+
+</div>
+
+
+    
+    
+    
+        <script async="" src="Spring%20Data%20JPA%20One%20To%20Many%20Relationship%20Mapping%20Example_files/main.js"></script>
+    
+
+
+
+        <!-- Google Analytics -->
+        <script>
+            (function(a,b,c){var d=a.history,e=document,f=navigator||{},g=localStorage,h=encodeURIComponent,i=d.pushState,k=function(){return Math.random().toString(36)},l=function(){return g.cid||(g.cid=k()),g.cid},m=function(r){var s=[];for(var t in r)r.hasOwnProperty(t)&&void 0!==r[t]&&s.push(h(t)+"="+h(r[t]));return s.join("&")},n=function(r,s,t,u,v,w,x){var z="https://www.google-analytics.com/collect",A=m({v:"1",ds:"web",aip:c.anonymizeIp?1:void 0,tid:b,cid:l(),t:r||"pageview",sd:c.colorDepth&&screen.colorDepth?screen.colorDepth+"-bits":void 0,dr:e.referrer||void 0,dt:e.title,dl:e.location.origin+e.location.pathname+e.location.search,ul:c.language?(f.language||"").toLowerCase():void 0,de:c.characterSet?e.characterSet:void 0,sr:c.screenSize?(a.screen||{}).width+"x"+(a.screen||{}).height:void 0,vp:c.screenSize&&a.visualViewport?(a.visualViewport||{}).width+"x"+(a.visualViewport||{}).height:void 0,ec:s||void 0,ea:t||void 0,el:u||void 0,ev:v||void 0,exd:w||void 0,exf:"undefined"!=typeof x&&!1==!!x?0:void 0});if(f.sendBeacon)f.sendBeacon(z,A);else{var y=new XMLHttpRequest;y.open("POST",z,!0),y.send(A)}};d.pushState=function(r){return"function"==typeof d.onpushstate&&d.onpushstate({state:r}),setTimeout(n,c.delay||10),i.apply(d,arguments)},n(),a.ma={trackEvent:function o(r,s,t,u){return n("event",r,s,t,u)},trackException:function q(r,s){return n("exception",null,null,null,null,r,s)}}})(window,"UA-73756519-10",{anonymizeIp:true,colorDepth:true,characterSet:true,screenSize:true,language:true});
+        </script>
+        <!-- End Google Analytics -->
+    
+
+</body></html>
