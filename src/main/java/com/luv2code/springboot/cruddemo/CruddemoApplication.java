@@ -7,8 +7,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.luv2code.springboot.cruddemo.dao.BookRepository;
 import com.luv2code.springboot.cruddemo.dao.EmployeeRepository;
+import com.luv2code.springboot.cruddemo.dao.PageRepository;
+import com.luv2code.springboot.cruddemo.entity.Book;
 import com.luv2code.springboot.cruddemo.entity.Employee;
+import com.luv2code.springboot.cruddemo.entity.Page;
 
 @SpringBootApplication
 public class CruddemoApplication {
@@ -21,7 +25,8 @@ public class CruddemoApplication {
 
 	// Testing only, create data in DB when server start
 	@Bean
-	public CommandLineRunner dbDataInit(EmployeeRepository employeeRepository) {
+	public CommandLineRunner dbDataInit(EmployeeRepository employeeRepository, BookRepository bookRepository,
+			PageRepository pageRepository) {
 		return (args) -> {
 
 			// create dummy employee
@@ -37,6 +42,31 @@ public class CruddemoApplication {
 			log.info("---------------------------");
 			for (Employee employee : employeeRepository.findAll()) {
 				log.info(employee.toString());
+			}
+
+			// create a new book
+			log.info("Start to create new book...");
+			Book book = new Book("Java 101", "John Doe", "123456");
+			bookRepository.save(book);
+
+			// fetch all book
+			log.info("Book found with findAll():");
+			log.info("---------------------------");
+			for (Book b : bookRepository.findAll()) {
+				log.info(b.toString());
+			}
+
+			// create & save new pages
+			log.info("Start to create new pages...");
+			pageRepository.save(new Page(1, "Introduction contents", "Introduction", book));
+			pageRepository.save(new Page(65, "Java 8 contents", "Java 8", book));
+			pageRepository.save(new Page(95, "Concurrency contents", "Concurrency", book));
+
+			// fetch all page
+			log.info("Page found with findAll():");
+			log.info("---------------------------");
+			for (Page p : pageRepository.findAll()) {
+				log.info(p.toString());
 			}
 
 		};
