@@ -1,5 +1,7 @@
 package com.luv2code.springboot.cruddemo;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -46,7 +48,7 @@ public class CruddemoApplication {
 
 			// create a new book
 			log.info("Start to create new book...");
-			Book book = new Book("Java 101", "John Doe", "123456");
+			Book book = new Book("Java 101", "John Doe", "abcde");
 			bookRepository.save(book);
 
 			// fetch all book
@@ -67,6 +69,22 @@ public class CruddemoApplication {
 			log.info("---------------------------");
 			for (Page p : pageRepository.findAll()) {
 				log.info(p.toString());
+			}
+
+			// call find findByIsbn
+			Book tempB = bookRepository.findByIsbn("ABCDE");
+			if (tempB != null) {
+				log.info("Found tempB");
+			} else {
+				log.info("tempB not found!");
+			}
+
+			// call find findByIsbnContaining
+			List<Book> tempCList = bookRepository.findByIsbnContaining("aBCde");
+			if (tempCList != null && !tempCList.isEmpty()) {
+				log.info("Found tempCList");
+			} else {
+				log.info("tempCList NOT found!");
 			}
 
 		};
